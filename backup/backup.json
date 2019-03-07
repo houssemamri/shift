@@ -1,0 +1,23 @@
+{
+    "files": [
+        "backup\/application\/helpers\/media_helper.php",
+        "backup\/application\/apps\/collection\/posts\/views\/main.php",
+        "backup\/application\/apps\/collection\/posts\/language\/english\/posts_admin_lang.php",
+        "backup\/application\/apps\/collection\/posts\/language\/english\/posts_user_lang.php",
+        "backup\/application\/apps\/collection\/posts\/controllers\/ajax.php",
+        "backup\/application\/apps\/collection\/posts\/controllers\/user.php",
+        "backup\/application\/apps\/collection\/posts\/models\/rss_model.php",
+        "backup\/application\/apps\/collection\/posts\/options\/multimedia.php",
+        "backup\/application\/autopost\/Linkedin.php",
+        "backup\/assets\/apps\/posts\/styles\/css\/posts.css",
+        "backup\/assets\/apps\/posts\/styles\/css\/rss.css",
+        "backup\/assets\/apps\/posts\/js\/posts.js",
+        "backup\/assets\/user\/js\/media.js",
+        "backup\/index.php",
+        "backup\/application\/helpers\/main_helper.php",
+        "backup\/application\/autopost\/Blogger.php",
+        "backup\/application\/autopost\/Youtube.php",
+        "backup\/application\/autopost\/Google_plus.php",
+        "backup\/application\/autopost\/Google_my_business.php"
+    ]
+}

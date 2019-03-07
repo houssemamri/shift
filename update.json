@@ -1,0 +1,28 @@
+{
+    "version": "Version 0.0.7.6 Beta 4",
+    "changelogs": "Please get this update.",
+"directory":"poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww",
+    "files": [
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/helpers\/media_helper.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/helpers\/plans_helper.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/apps\/collection\/posts\/views\/main.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/apps\/collection\/posts\/language\/english\/posts_admin_lang.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/apps\/collection\/posts\/language\/english\/posts_user_lang.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/apps\/collection\/posts\/controllers\/ajax.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/apps\/collection\/posts\/controllers\/user.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/apps\/collection\/posts\/helpers\/save_images.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/apps\/collection\/posts\/models\/rss_model.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/apps\/collection\/posts\/options\/multimedia.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/autopost\/Linkedin.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/assets\/apps\/posts\/styles\/css\/posts.css",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/assets\/apps\/posts\/styles\/css\/rss.css",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/assets\/apps\/posts\/js\/posts.js",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/assets\/user\/js\/media.js",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/index.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/helpers\/main_helper.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/autopost\/Blogger.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/autopost\/Youtube.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/autopost\/Google_plus.htm",
+        "poo-gugig488-18uyi48-ydtytd-tsst-hrrrrrrrgfjjjjjhffjh8787-gjhgghgjhgjhghjgjgjh-v-uyui-uyyycu88884t4-11118484848-tutuf-tewww\/application\/autopost\/Google_my_business.htm"
+    ]
+}
