@@ -126,6 +126,15 @@ $route['user/ajax/(:any)'] = 'userarea/ajax/$1';
 $route['user/print-invoice/(:num)'] = 'invoices/print_invoice/$1';
 $route['bots/(:any)'] = 'userarea/bots/$1';
 
+//$route['user/migration-settings'] = 'settings/index/$1';
+$route['user/migration-settings'] = 'migration/all_migration';
+$route['user/migrationall-result/(:num)/(:num)'] = 'migration/showall_result/$1/$2';
+$route['user/new-migration-setting'] = 'migration/new_setting';
+$route['user/create-msettings'] = 'migration/save_setting';
+
+
+
+
 // Admin routes
 $route['admin/home'] = 'adminarea/dashboard';
 $route['admin/auto-publish'] = 'adminarea/scheduled_posts';
@@ -198,5 +207,10 @@ $route['user/search-accounts/(:any)/(:any)'] = 'userarea/search_accounts/$1/$2';
 // Default
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+
+$route['user/Product_migration_controller/get_product_migration_view_one'] = 'Product_migration_controller/get_product_migration_view_one';
+$route['user/Product_migration_controller/get_user_website_selection'] = 'Product_migration_controller/get_user_website_selection';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
