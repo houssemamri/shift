@@ -29,15 +29,15 @@ $config['base_url'] = $root;
 | Enter Login Url
 |--------------------------------------------------------------------------
 | It is necessary to replace notification's placeholders.
-| 
+|
 */
-$config['login_url'] = 'http://localhost/mtransfer/';
+$config['login_url'] = 'http://localhost/datamigration/shift';
 /*
 |--------------------------------------------------------------------------
 | The Catcha Secret Key
 |--------------------------------------------------------------------------
 | Please add catcha secret key before enable the Report a Bug page
-| https://www.google.com/recaptcha/admin#list 
+| https://www.google.com/recaptcha/admin#list
 |
 */
 $config['captcha_site_key'] = '6LdNJpQUAAAAADsPFFroCdFuiYkwnUDO00Ko2O1I';
@@ -56,7 +56,7 @@ $config['domain'] = '';
 | Website Name
 |--------------------------------------------------------------------------
 | Add website name. It is necessary.
-| 
+|
 */
 $config['site_name'] = 'Harlow Shapley Social';
 /*

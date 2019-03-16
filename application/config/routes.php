@@ -198,5 +198,10 @@ $route['user/search-accounts/(:any)/(:any)'] = 'userarea/search_accounts/$1/$2';
 // Default
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+
+$route['user/Product_migration_controller/get_product_migration_view_one'] = 'Product_migration_controller/get_product_migration_view_one';
+$route['user/Product_migration_controller/get_user_website_selection'] = 'Product_migration_controller/get_user_website_selection';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
