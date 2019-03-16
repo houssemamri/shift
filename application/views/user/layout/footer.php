@@ -119,6 +119,36 @@
                 "mm201":htmlEntities("<?= $this->lang->line("mm201"); ?>"),
                 "mu3": htmlEntities("<?= $this->lang->line("mu3"); ?>")
             };
+			 // Translation characters
+    var translation = {
+        "mm103":htmlEntities("<?php echo $this->lang->line("mm103"); ?>"),
+        "mm111":htmlEntities("<?php echo $this->lang->line("mm111"); ?>"),
+        "mm112":htmlEntities("<?php echo $this->lang->line("mm112"); ?>"),
+        "mm113":htmlEntities("<?php echo $this->lang->line("mm113"); ?>"),
+        "mm116":htmlEntities("<?php echo $this->lang->line("mm116"); ?>"),
+        "mm104":htmlEntities("<?php echo $this->lang->line("mm104"); ?>"),
+        "mm105":htmlEntities("<?php echo $this->lang->line("mm105"); ?>"),
+        "mm106":htmlEntities("<?php echo $this->lang->line("mm106"); ?>"),
+        "mm107":htmlEntities("<?php echo $this->lang->line("mm107"); ?>"),
+        "mm3":htmlEntities("<?php echo $this->lang->line("mm3"); ?>"),
+        "mm142":htmlEntities("<?php echo $this->lang->line("mm142"); ?>"),
+        "mm143":htmlEntities("<?php echo $this->lang->line("mm143"); ?>"),
+        "mm144":htmlEntities("<?php echo $this->lang->line("mm144"); ?>"),
+        "mm145":htmlEntities("<?php echo $this->lang->line("mm145"); ?>"),
+        "mm187":htmlEntities("<?php echo $this->lang->line("mm187"); ?>"),
+        "mm188":htmlEntities("<?php echo $this->lang->line("mm188"); ?>"),
+        "ma18":htmlEntities("<?php echo $this->lang->line("ma18"); ?>"),
+        "ma91":htmlEntities("<?php echo $this->lang->line("ma91"); ?>"),
+        "ma141":htmlEntities("<?php echo $this->lang->line("ma141"); ?>"),
+        "ma142":htmlEntities("<?php echo $this->lang->line("ma142"); ?>"),
+        "mm128":htmlEntities("<?php echo $this->lang->line("mm128"); ?>"),
+        "mm129":htmlEntities("<?php echo $this->lang->line("mm129"); ?>"),
+        "mm200":htmlEntities("<?php echo $this->lang->line("mm200"); ?>"),
+        "mm201":htmlEntities("<?php echo $this->lang->line("mm201"); ?>"),
+        "mm130":htmlEntities("<?php echo $this->lang->line("mm130"); ?>"),
+        "mm154":htmlEntities("<?php echo $this->lang->line("mm154"); ?>"),
+        "mm135":htmlEntities("<?php echo $this->lang->line("mm135"); ?>")
+    };
         </script>
         <?php if ( $this->router->fetch_method() === 'apps' || $this->router->fetch_method() === 'emails'): ?>
         <script language="javascript">
@@ -169,6 +199,9 @@
         <?php endif; ?>
         <?php if ($this->router->fetch_method() === 'settings'): ?>
         <script src="<?= base_url(); ?>assets/user/js/settings.js?ver=<?= MD_VER ?>"></script>
+        <?php endif; ?>
+		<?php if (($this->router->fetch_method() === 'all_migration') || ($this->router->fetch_method() === 'showall_result') || ($this->router->fetch_method() === 'save_setting') || ($this->router->fetch_method() === 'new_setting')  ): ?>
+        <script src="<?= base_url(); ?>assets/user/js/migration.js?ver=<?= MD_VER ?>"></script>
         <?php endif; ?>
         <?php if ($this->router->fetch_method() === 'team'): ?>
         <script src="<?= base_url(); ?>assets/user/js/team.js?ver=<?= MD_VER ?>"></script>

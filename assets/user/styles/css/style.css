@@ -3425,6 +3425,125 @@ RESPONSIVE ANIMATIONS
     max-width: 1200px; } }
 @media (max-width: 992px) {
   .modal-xl {
-    max-width: 800px; } }
-
+    max-width: 800px; }
+}
+section {
+    height: auto;
+    padding-top: 30px;
+    -webkit-animation: wel 1.5s;
+    animation: wel 1.5s;
+    background-position: center center;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
+    min-height: 700px;
+    position: relative;
+    width: 100%;
+}
+section > div > .row:first-child {
+    margin-bottom: 20px;
+}
+.fl {
+    padding-left: 0px;
+}
+section > div > div > div > .col-lg-6 > div, section > div > div > div > .col-lg-4 > div {
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    background-color: #FFF;
+    box-shadow: 0 2px 10px 0 rgba(33,35,68,.05);
+    height: auto;
+}
+.display-none {
+    display: none;
+}
+.merror {
+    border-left: 4px solid #e7505a;
+    background: #f2f6f9;
+    width:100%;
+    min-height:40px;
+    line-height:40px;
+    color: #e73d4a;
+    padding-left:10px;
+    margin:10px 0px;
+    display:none;
+}
+.merror>p,.msuccess>p {
+    margin:0px !important;
+}
+.settings-item>div {
+    min-height: 70px;
+    border-bottom: 1px solid #f6f6f6;
+    margin-top: 10px;
+}
+.panel-heading {
+    background: #f8f8f8;
+    line-height: 40px;
+    padding: 0 15px;
+    min-height: 40px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border-bottom: none;
+    position: relative;
+    margin-top: -20px;
+    font-weight: 400;
+    color: #555;
+}
+.panel-heading > h2 {
+    font-size: 16px;
+    line-height: 40px;
+}
+.panel-heading > h2 > a {
+    color: #555;
+    text-decoration: none;
+}
+.users .panel-heading, .plans .panel-heading {
+    margin-bottom: 15px;
+}
 /*# sourceMappingURL=style.css.map */
+.settings-item .btn-edit{
+	background-color: #94d7be;
+    font-size: 16px;
+    color: #FFF;
+    margin-top: 10px;
+}
+.settings-item>div>div{
+	float:left;
+}
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+@media (min-width: 1200px){
+	.col-lg-offset-3 {
+		margin-left: 25%;
+	}
+}
+.migrationnew .panel-heading{
+	margin-top: 0px;
+	width:100%;
+	margin-bottom: 30px;
+}
+.migrationnew .btn-primary{
+    background-color: #54ABDB;
+    border-color: #54ABDB;
+}
+.msuccess {
+    border-left: 4px solid #5C9ACF;
+    background: #f2f6f9;
+    width:100%;
+    min-height:40px;
+    line-height:40px;
+    color: #458AC3;
+    padding-left:10px;
+    margin:10px 0px;
+    display:none;
+}

@@ -13,17 +13,17 @@
     </a>
     <ul>
     <?php
-    
+
         if ( !class_exists('MidrubApps\MidrubApps') ) {
             // Require the Apps class
-            $this->load->file( APPPATH . '/apps/main.php' );        
+            $this->load->file( APPPATH . '/apps/main.php' );
         }
-    
+
         // List all apps
         foreach (glob(APPPATH . 'apps/collection/*', GLOB_ONLYDIR) as $dir) {
 
             $app_dir = trim(basename($dir).PHP_EOL);
-            
+
             if ( !get_option('app_' . $app_dir . '_enable') || !plan_feature('app_' . $app_dir) ) {
                 continue;
             }
@@ -34,7 +34,7 @@
                 'Collection',
                 ucfirst($app_dir),
                 'Main'
-            );       
+            );
 
             // Implode the array above
             $cl = implode('\\',$array);
@@ -56,7 +56,11 @@
                 . '</li>';
 
         }
-        
+<<<<<<< HEAD
+        /*
+=======
+
+>>>>>>> 7f7177b0ac2dd4d07a9c32c4ab790790c6b469f4
         if ( get_option('email_marketing') && (plan_feature('sent_emails') > 0) ) {
             ?>
             <li<?php if ($this->router->fetch_method() === 'emails') echo ' class="active"'; ?>>
@@ -86,8 +90,14 @@
                 </a>
             </li>
             <?php
-        }
+        } */
         ?>
+		<li>
+                <a href="<?php echo site_url('user/migration-settings') ?>">
+                    <i class="fas fa-cog"></i><br>
+                    <?php echo "Migration Settings"; ?>
+                </a>
+        </li>
     </ul>
 </nav>
 
@@ -102,12 +112,30 @@
                         <div class="menu-line"></div>
                         <div class="menu-line"></div>
                     </a>
-                </li>                
+                </li>
+
+
+
+                <!-- START -->
                 <li>
-                    <a href="<?php echo site_url('user/app/posts') ?>" class="new-post-button">
-                        <i class="icon-note"></i> <?php echo $this->lang->line('mu9'); ?>
+                    <a href="<?php echo site_url('user/Product_migration_controller/get_product_migration_view_one') ?>" class="new-post-button">
+                        Product migration
                     </a>
                 </li>
+                <li>
+                    <a href="<?php echo site_url() ?>" class="new-post-button">
+                        Customer migration
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo site_url() ?>" class="new-post-button">
+                        Order migration
+                    </a>
+                </li>
+                <!-- END -->
+
+
+
             </ul>
             <ul class="nav navbar justify-content-end">
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-question"></i><span class="label label-success"><?php echo $this->user_header['new_tickets']; ?></span></a>
@@ -138,7 +166,7 @@
                             <a href="<?= site_url('user/activities') ?>">
                                 <i class="icon-chart"></i> <?php echo $this->lang->line('mu3'); ?>
                             </a>
-                        </li>                        
+                        </li>
                         <li>
                             <a href="<?= site_url('user/team') ?>">
                                 <i class="icon-people"></i> <?php echo $this->lang->line('mu314'); ?>
@@ -156,7 +184,7 @@
                                 <a href="<?= site_url('user/activities') ?>">
                                     <i class="icon-chart"></i> <?php echo $this->lang->line('mu3'); ?>
                                 </a>
-                            </li>  
+                            </li>
                             <?php
                         }
                         ?>

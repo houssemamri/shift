@@ -13,6 +13,7 @@
         ?>" />
         
         <!-- Bootstrap CSS -->
+		
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         
         <!-- Font Awesome -->
@@ -23,6 +24,7 @@
         
         <!-- Midrub CSS -->
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/user/styles/css/style.css?ver=<?php echo MD_VER; ?>" media="all"/>
+		<link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/admin/css/style1.css" media="all">
         
         <?php
         if ( isset($app_styles) ) {

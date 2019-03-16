@@ -1,5 +1,9 @@
 RewriteEngine On
-RewriteBase /mtransfer/
+<<<<<<< HEAD
+RewriteBase /mtransfer/shift
+=======
+RewriteBase /datamigration/shift
+>>>>>>> 7f7177b0ac2dd4d07a9c32c4ab790790c6b469f4
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]
