@@ -265,7 +265,8 @@ class Migration extends MY_Controller {
 						$lastid = $this->settings_migration->save_settings($data);
 						
 						$commanname = $username."_".$lastid;
-						$createTable = $this->settings_migration->createSettingTable($commanname);
+						$createCategoryMapping = $this->settings_migration->createSettingTable($commanname);
+						$createProductMapping = $this->settings_migration->createProductMappingTable($commanname);
 						echo json_encode('<p class="msuccess">Migration settings saved successfully.</p>');
 					}else if($action == "update_setting"){
 						$data = array(

@@ -59,6 +59,16 @@ class Settings_migration extends CI_MODEL {
 		$query = $this->db->query($qry);
         return $query;
 	}
+	
+	public function createProductMappingTable($userid){
+		$qry = 'CREATE TABLE IF NOT EXISTS `'.$userid.'_product_mapping` ( 
+			`opencart_product_id` VARCHAR(250),
+			`magento_product_id` VARCHAR(250)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
+		$query = $this->db->query($qry);
+        //return $query;
+	}
+	
 			
 	public function get_settings( $start, $limit, $order, $key = null, $user_id ) {
         
