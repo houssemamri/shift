@@ -29,6 +29,15 @@
                                     <input class="new-message form-control opencart_dbhost" type="text" placeholder="Opencart Database Host" required>
                                 </div>
 								<div class="form-group">
+                                    <input class="new-message form-control opencart_dbprefix" type="text" placeholder="Opencart Database Prefix" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control opencart_admin" type="text" placeholder="Opencart Admin Username" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control opencart_admin_password" type="text" placeholder="Opencart Admin Password" required>
+                                </div>
+								<div class="form-group">
                                     <input class="new-message form-control magento_websiteurl" type="text" placeholder="Magento Web URL" required>
                                 </div>
 								<div class="form-group">
@@ -42,6 +51,15 @@
                                 </div>
 								<div class="form-group">
                                     <input class="new-message form-control magento_dbhost" type="text" placeholder="Magento Database Host" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_dbprefix" type="text" placeholder="Magento Database Prefix" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_admin" type="text" placeholder="Magento Admin Username" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_admin_password" type="text" placeholder="Magento Admin Password" required>
                                 </div>
                                 
                                 <div class="form-group">

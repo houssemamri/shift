@@ -20,63 +20,69 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 fr user-details display-none">
+                <div class="col-lg-6 fr migration-details display-none">
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="panel-heading details">
-                                <h2><i class="fa fa-inbox"></i> <?= $this->lang->line('ma100'); ?><span></span></h2>
+                                <h2><i class="fa fa-inbox"></i> Details<span></span></h2>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <?= form_open('admin/users', ['class' => 'update-form']) ?>
-                                <div class="form-group">
-                                    <input class="new-message form-control first_name" type="text" placeholder="<?= $this->lang->line('ma277'); ?>" required>
+                                <?= form_open('user/migration-settings', ['class' => 'update-migration']) ?>
+								<input type="hidden" name="actionname" value="update_setting" class="actionname" />
+								<div class="form-group">
+                                    <input class="new-message form-control opencart_websiteurl" type="text" placeholder="Opencart Web URL" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="new-message form-control last_name" type="text" placeholder="<?= $this->lang->line('ma278'); ?>" required>
+                                    <input class="new-message form-control opencart_database" type="text" placeholder="Opencart Database Name" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control opencart_dbuser" type="text" placeholder="Opencart Database User" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="new-message form-control dusername" type="text" placeholder="<?= $this->lang->line('ma101'); ?>" disabled>
+                                    <input class="new-message form-control opencart_dbpassword" type="text" placeholder="Opencart Database Password" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="new-message form-control demail" type="text" placeholder="<?= $this->lang->line('ma102'); ?>" required>
+                                    <input class="new-message form-control opencart_dbhost" type="text" placeholder="Opencart Database Host" required>
                                 </div>
-                                <div class="form-group">
-                                    <input class="new-message form-control dpassword" type="password" placeholder="<?= $this->lang->line('ma103'); ?>">
+								<div class="form-group">
+                                    <input class="new-message form-control opencart_dbprefix" type="text" placeholder="Opencart Database Prefix" required>
                                 </div>
-                                <div class="form-group">
-                                    <input class="new-message form-control dproxy" type="text" placeholder="<?= $this->lang->line('ma140'); ?>">
-                                </div>                        
-                                <?php
-                                if ($plans) {
-                                    echo '<div class="form-group">'
-                                    . '<select class="form-control dplan">';
-                                    foreach ($plans as $plan) {
-                                        ?>
-                                        <option value="<?= $plan->plan_id ?>"><?= $plan->plan_name ?></option>
-                                        <?php
-                                    }
-                                    echo '</select>
-                                        </div>';
-                                }
-                                ?>
-                                <div class="form-group">
-                                    <select class="form-control drole">
-                                        <option value="0"><?= $this->lang->line('ma104'); ?></option>
-                                        <option value="1"><?= $this->lang->line('ma105'); ?></option>
-                                    </select>
+								<div class="form-group">
+                                    <input class="new-message form-control opencart_admin" type="text" placeholder="Opencart Admin Username" required>
                                 </div>
-                                <div class="form-group">
-                                    <select class="form-control dstatus">
-                                        <option value="0"><?= $this->lang->line('ma106'); ?></option>
-                                        <option value="1"><?= $this->lang->line('ma107'); ?></option>
-                                        <option value="2"><?= $this->lang->line('ma108'); ?></option>
-                                    </select>
+								<div class="form-group">
+                                    <input class="new-message form-control opencart_admin_password" type="text" placeholder="Opencart Admin Password" required>
                                 </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_websiteurl" type="text" placeholder="Magento Web URL" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_database" type="text" placeholder="Magento Database Name" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_dbuser" type="text" placeholder="Magento Database User" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_dbpassword" type="text" placeholder="Magento Database Password" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_dbhost" type="text" placeholder="Magento Database Host" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_dbprefix" type="text" placeholder="Magento Database Prefix" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_admin" type="text" placeholder="Magento Admin Username" required>
+                                </div>
+								<div class="form-group">
+                                    <input class="new-message form-control magento_admin_password" type="text" placeholder="Magento Admin Password" required>
+                                </div>
+                                
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-labeled btn-danger pull-left delete-account"><?= $this->lang->line('ma109'); ?></button> <p class="pull-left confirm"><?= $this->lang->line('ma30'); ?> <a href="#" class="yes"><?= $this->lang->line('ma31'); ?></a><a href="#" class="no"><?= $this->lang->line('ma32'); ?></a></p>
-                                    <button type="submit" class="btn btn-labeled btn-primary pull-right"><?= $this->lang->line('ma110'); ?></button>
+                                  <!--  <button type="button" class="btn btn-labeled btn-danger pull-left delete-account">Delete Settings</button> <p class="pull-left confirm">Are you sure? <a href="#" class="yes">Yes</a><a href="#" class="no">No</a></p>-->
+                                    <button type="submit" class="btn btn-labeled btn-primary pull-right">Update Settings</button>
                                 </div>
                                 <div class="form-group alert-msg"></div>
                                 <?= form_close() ?>
