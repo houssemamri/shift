@@ -42,32 +42,32 @@ class Product_migration_controller extends CI_Controller {
 
       // get connection details.
       $setting_data = $this->Product_migration_model->get_selected_magento_website_details($data['magento_url']);
-      
+
      //Set magenot database config dynamically
       $magento_config_app = switch_db_dynamic($setting_data->magento_dbhost,$setting_data->magento_dbusername,$setting_data->magento_dbpassword,$setting_data->magento_database);
-      $this->magento_db = $this->load->database($magento_config_app,true); 
-      
+      $this->magento_db = $this->load->database($magento_config_app,true);
+
       //Set opencart database config dynamically
       $opencart_config_app = switch_db_dynamic($setting_data->opencart_dbhost,$setting_data->opencart_dbusername,$setting_data->opencart_dbpassword,$setting_data->opencart_database);
-      $this->opencart_db = $this->load->database($opencart_config_app,true); 
-      
-      
+      $this->opencart_db = $this->load->database($opencart_config_app,true);
+
+
       // Create Magento API connection.
       require('Marest.php');
       $data['magento_api_connection_status'] = $this->api=new Marest($setting_data->magento_websiteurl);
       $this->api->connect($setting_data->magento_admin, $setting_data->magento_admin_password);
 
       // Starting category migration.
-      $this->Product_migration_model->create_product_category_mapping_table($setting_data->opencart_database);
+      $this->Product_migration_model->create_product_category_mapping_table();
       $opencartdb = $this->Product_migration_model->opencart_checkquery($this->opencart_db,$setting_data->opencart_database);
       //echo "oc";print_r($opencartdb);exit;
-      
+
       foreach($opencartdb as $ocvalue){
          $ocdata = array("opencart_category_id" => $ocvalue->opencart_category_id,
                         "opencart_category_parent" => $ocvalue->opencart_category_parent);
          $mapping_insert = $this->Product_migration_model->insert_mapping_data($ocdata);
       }
-     
+
       $data['opencart_category_details'] = $this->Product_migration_model->get_opencart_category_details($this->opencart_db,$setting_data->opencart_database);
     //  print_r($data['opencart_category_details']);exit;
       foreach ($data['opencart_category_details'] as $row) {
@@ -95,16 +95,18 @@ class Product_migration_controller extends CI_Controller {
               'is_active'         => TRUE
             )
           );
+          /*
           $response = $this->api->post("categories", $dataa);
           foreach ($response as $key => $value) {
             if($key == 'id'){
               $data['magento_category_id']=$value;
             }
           }
-       
+
           $data['response_status']=$response;
 
           $this->Product_migration_model->update_product_category_mapping_table($data['magento_category_id'], $data['magento_category_parent'], $data['opencart_category_id']);
+          */
         } else {
           $data['magento_category_parent_row'] = $this->Product_migration_model->get_new_product_category_id($data['opencart_category_parent']);
           foreach ($data['magento_category_parent_row'] as $key => $value) {
@@ -120,6 +122,7 @@ class Product_migration_controller extends CI_Controller {
               'is_active'         => TRUE
             )
           );
+          /*
           $response = $this->api->post("categories", $dataa);
           foreach ($response as $key => $value) {
             if($key=='id'){
@@ -129,8 +132,33 @@ class Product_migration_controller extends CI_Controller {
           $data['response_status']=$response;
 
           $this->Product_migration_model->update_product_category_mapping_table($data['magento_category_id'], $data['magento_category_parent'], $data['opencart_category_id']);
+          */
         }
       }
       $this->load->view('user/product_migration_view_two', $data);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function start_product_migration(){
+      $this->load->view('user/product_migration_view_three');
     }
 }

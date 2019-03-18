@@ -24,24 +24,17 @@
       .container div {
         border-radius: 5px;
       }
+
+      .container button {
+        width: 100%;
+      }
     </style>
   </head>
   <body>
 
     <div class="container">
       <?php
-        if ($magento_database_connection_status) {
-          echo "<div class='p-3 mb-2 bg-success text-white'>Magento database connection successful.</div>";
-        } else {
-          echo "<div class='p-3 mb-2 bg-danger text-white'>Magento database connection unsuccessful.</div>";
-        }
-
-        if ($opencart_database_connection_status) {
-          echo "<br><div class='p-3 mb-2 bg-success text-white'>OpenCart database connection successful.</div>";
-        } else {
-          echo "<br><div class='p-3 mb-2 bg-danger text-white'>OpenCart database connection unsuccessful.</div>";
-        }
-
+        /*
         if ($magento_api_connection_status) {
           echo "<br><div class='p-3 mb-2 bg-success text-white'>Magento API connection successful.</div>";
         } else {
@@ -53,7 +46,9 @@
         } else {
           echo "<br><div class='p-3 mb-2 bg-danger text-white'>Category migration unsuccessful.</div>";
         }
+        */
       ?>
+      <button type="button" class="btn btn-primary" onclick="window.location='<?php echo site_url("user/Product_migration_controller/start_product_migration");?>'">Start product migration</button>
     </div>
 
     <!-- Optional JavaScript -->
