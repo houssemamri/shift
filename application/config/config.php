@@ -58,7 +58,7 @@ $config['domain'] = '';
 | Add website name. It is necessary.
 | 
 */
-$config['site_name'] = 'Harlow Shapley Social';
+$config['site_name'] = 'Cart to Cart Migration Service';
 /*
 |--------------------------------------------------------------------------
 | Contact Email
