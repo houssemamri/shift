@@ -2,6 +2,7 @@
 /*
 Sanket Patel
 Date: 2019.03.18
+Summary : Migration Controller Class
 */
 
 if (!defined('BASEPATH')) {
