@@ -16,16 +16,23 @@ jQuery(document).ready(function ($) {
         
         // create an object with form data
         var data = {
+			migration_id: '',
             opencart_websiteurl: jQuery('.opencart_websiteurl').val(),
             opencart_database: jQuery('.opencart_database').val(),
             opencart_dbuser: jQuery('.opencart_dbuser').val(),
             opencart_dbpassword: jQuery('.opencart_dbpassword').val(),
             opencart_dbhost: jQuery('.opencart_dbhost').val(),
+			opencart_dbprefix: jQuery('.opencart_dbprefix').val(),
+			opencart_admin: jQuery('.opencart_admin').val(),
+			opencart_admin_password: jQuery('.opencart_admin_password').val(),			
             magento_websiteurl: jQuery('.magento_websiteurl').val(),
 			magento_database: jQuery('.magento_database').val(),
 			magento_dbuser: jQuery('.magento_dbuser').val(),
 			magento_dbpassword: jQuery('.magento_dbpassword').val(),
 			magento_dbhost: jQuery('.magento_dbhost').val(),
+			magento_dbprefix: jQuery('.magento_dbprefix').val(),
+			magento_admin: jQuery('.magento_admin').val(),
+			magento_admin_password: jQuery('.magento_admin_password').val(),
             csrf_test_name: name,
 			actionname: jQuery('.actionname').val(),
         };
@@ -86,7 +93,7 @@ jQuery(document).ready(function ($) {
                         var role = (data.settings[u].role == 0) ? 'User' : 'Administrator';
                         
                         // Get the edit button
-                        var edit = '<button type="button" data-user="' + data.settings[u].id + '" class="btn btn-edit pull-right user-edit"><i class="fas fa-pencil-alt"></i></button>';
+                        var edit = '<button type="button" data-user="' + data.settings[u].id + '" class="btn btn-edit pull-right migration-edit"><i class="fas fa-pencil-alt"></i></button>';
                         
                         // Verify if admin is in the statistics page 
                         if ( jQuery('.widget-box').length > 0 ) {
@@ -126,7 +133,7 @@ jQuery(document).ready(function ($) {
     }
 	
 	 /*
-     * Verify if we are on the Users page
+     * Verify if we are on the setting page
      * 
      * @since   0.0.0.1
      */
@@ -189,5 +196,130 @@ jQuery(document).ready(function ($) {
             jQuery(location + ' .pagination').html(pages + '<li class="pagehide"><a href="#">' + translation.mm129 + '</a></li>');
         }
     }
+	
+	
+	 /*
+     * Detect setting edit click
+     * 
+     * @since   0.0.0.1
+     */
+    jQuery(document).on('click', '.migration-edit', function () {
+        
+        // Get setting's ID
+        var $this = jQuery(this);
+        users.user_id = $this.attr('data-user');
+        
+        // Display migration's settings
+        migration_edit();
+        
+    });
+	
+	
+	 /*
+     * Edit migration data
+     * 
+     * @since   0.0.0.1
+     */
+    function migration_edit() {
+        jQuery('.migration-details').hide();
+        jQuery('.migration-details').fadeIn('slow');
+        jQuery('.drole').removeAttr('disabled');
+        jQuery('.dstatus').removeAttr('disabled');
+        jQuery('.delete-account').show();
+        jQuery('.confirm').hide();
+        jQuery.ajax({
+            url: url + 'user/migration-info/' + users.user_id,
+            dataType: 'json',
+            type: 'GET',
+            beforeSend: function () {
+                document.getElementsByClassName('update-migration')[0].reset();
+            },
+            success: function (data) {				
+                if (data.msg) {
+                    jQuery('.opencart_websiteurl').val(data.msg.opencart_websiteurl);
+                    jQuery('.opencart_database').val(data.msg.opencart_database);
+                    jQuery('.opencart_dbuser').val(data.msg.opencart_dbusername);
+                    jQuery('.opencart_dbpassword').val(data.msg.opencart_dbpassword);
+                    jQuery('.opencart_dbhost').val(data.msg.opencart_dbhost);
+                    jQuery('.opencart_dbprefix').val(data.msg.opencart_dbprefix);
+                    jQuery('.opencart_admin').val(data.msg.opencart_admin);
+					jQuery('.opencart_admin_password').val(data.msg.opencart_admin_password);
+					jQuery('.magento_websiteurl').val(data.msg.magento_websiteurl);
+					jQuery('.magento_database').val(data.msg.magento_database);
+					jQuery('.magento_dbuser').val(data.msg.magento_dbusername);
+					jQuery('.magento_dbpassword').val(data.msg.magento_dbpassword);
+					jQuery('.magento_dbhost').val(data.msg.magento_dbhost);
+					jQuery('.magento_dbprefix').val(data.msg.magento_dbprefix);
+					jQuery('.magento_admin').val(data.msg.magento_admin);
+					jQuery('.magento_admin_password').val(data.msg.magento_admin_password);					
+                }
+            },
+            error: function (data, jqXHR, textStatus) {
+                //console.log('Request failed: ' + textStatus);
+                jQuery('.alert-msg').show();
+                jQuery('.alert-msg').html('<p class="merror">'+translation.mm3+'</p>');
+                jQuery('.merror').fadeIn(1000).delay(2000).fadeOut(1000, function () {
+                    jQuery('.merror').remove();
+                    jQuery('.alert-msg').hide();
+                });
+            }
+        });
+    }
+	
+	 /*
+     * Update migration's data     
+     */
+    jQuery('.update-migration').submit(function (e) {
+        e.preventDefault();
+        
+        // Get CRSF token
+        var name = jQuery('input[name="csrf_test_name"]').val();
+        
+        // create an object with form data
+        var data = {
+			migration_id: users.user_id,
+            opencart_websiteurl: jQuery('.opencart_websiteurl').val(),
+            opencart_database: jQuery('.opencart_database').val(),
+            opencart_dbuser: jQuery('.opencart_dbuser').val(),
+            opencart_dbpassword: jQuery('.opencart_dbpassword').val(),
+            opencart_dbhost: jQuery('.opencart_dbhost').val(),
+			opencart_dbprefix: jQuery('.opencart_dbprefix').val(),
+			opencart_admin: jQuery('.opencart_admin').val(),
+			opencart_admin_password: jQuery('.opencart_admin_password').val(),			
+            magento_websiteurl: jQuery('.magento_websiteurl').val(),
+			magento_database: jQuery('.magento_database').val(),
+			magento_dbuser: jQuery('.magento_dbuser').val(),
+			magento_dbpassword: jQuery('.magento_dbpassword').val(),
+			magento_dbhost: jQuery('.magento_dbhost').val(),
+			magento_dbprefix: jQuery('.magento_dbprefix').val(),
+			magento_admin: jQuery('.magento_admin').val(),
+			magento_admin_password: jQuery('.magento_admin_password').val(),
+            csrf_test_name: name,
+			actionname: jQuery('.actionname').val(),
+        };
+        
+        // submit data via ajax
+        jQuery.ajax({
+            url: url + 'user/update-migration-setting',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                jQuery('.alert-msg').show();
+                jQuery('.alert-msg').html(data);
+                jQuery('.merror').fadeIn(1000).delay(2000).fadeOut(1000, function () {
+                    jQuery('.merror').remove();
+                    jQuery('.alert-msg').hide();
+                });
+                jQuery('.msuccess').fadeIn(1000).delay(2000).fadeOut(1000, function () {
+                    jQuery('.msuccess').remove();
+                    jQuery('.alert-msg').hide();
+                });
+            },
+            error: function (data, jqXHR, textStatus) {
+                console.log('Request failed: ' + textStatus);
+            }
+        });
+    });
 	
 });

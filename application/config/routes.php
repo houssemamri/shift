@@ -131,7 +131,8 @@ $route['user/migration-settings'] = 'migration/all_migration';
 $route['user/migrationall-result/(:num)/(:num)'] = 'migration/showall_result/$1/$2';
 $route['user/new-migration-setting'] = 'migration/new_setting';
 $route['user/create-msettings'] = 'migration/save_setting';
-
+$route['user/migration-info/(:num)'] = 'migration/migration_info/$1';
+$route['user/update-migration-setting'] = 'migration/save_setting';
 
 
 

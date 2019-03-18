@@ -44,16 +44,25 @@ class Settings_migration extends CI_MODEL {
         }        
     }
 	
+	public function update_settings($id, $user_id, $data_value){
+		$data = $data_value;
+		$this->db->where(['user_id' => $user_id, 'id' => $id ]);
+		$this->db->update($this->table, $data);
+	}
+	
 	public function createSettingTable($userid){		
-		$qry = 'CREATE TABLE IF NOT EXISTS `'.$userid.'_product_category_mapping` ( `product_category_mapping` varchar(255) NOT NULL, 
+		$qry = 'CREATE TABLE IF NOT EXISTS `'.$userid.'_product_category_mapping` ( 
+			`opencart_category_id` VARCHAR(250),
+			`opencart_category_parent` VARCHAR(250),
+			`magento_category_id` varchar(255) NOT NULL, 
 			`magento_category_parent` varchar(255) NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 		$query = $this->db->query($qry);
         return $query;
 	}
-	
-	 public function get_settings( $start, $limit, $order, $key = null, $user_id ) {
+			
+	public function get_settings( $start, $limit, $order, $key = null, $user_id ) {
         
-        $this->db->select('user_id,opencart_websiteurl,magento_websiteurl');
+        $this->db->select('id,user_id,opencart_websiteurl,magento_websiteurl');
         $this->db->from($this->table);
 		$this->db->where('user_id', $user_id); 
         $key = $this->db->escape_like_str($key);
@@ -89,7 +98,21 @@ class Settings_migration extends CI_MODEL {
             return $query->num_rows();            
         } else {            
             return '0';            
-        }        
+        }
     }
+	
+	public function get_migration_info($id){
+		$this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        
+        if ( $query->num_rows() == 1 ) {
+            $result = $query->row();
+			return $result;
+		}else{
+			return false;
+		}
+	}
 }
 ?>
