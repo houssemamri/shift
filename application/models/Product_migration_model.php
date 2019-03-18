@@ -6,7 +6,9 @@ if (!defined('BASEPATH')) {
 class Product_migration_model extends CI_Model {
 
     public function __construct() {
-      $this->load->database();
+        //parent::__construct();
+
+        $this->load->database();
     }
 
     public function get_all_user_websites($user_session_id) {
@@ -17,35 +19,49 @@ class Product_migration_model extends CI_Model {
     }
 
     public function get_selected_magento_website_details($magento_website_url) {
-      $query=$this->db->query("SELECT magento_database, magentodbusername, magento_dbpassword, magento_dbhost, magento_admin, magento_admin_password
+      $query=$this->db->query("SELECT *
                             FROM settings
                             WHERE magento_websiteurl='$magento_website_url'");
       return $query->row();
     }
 
-    public function get_selected_opencart_website_details($opencart_website_url) {
+    /*public function get_selected_opencart_website_details($opencart_website_url) {
       $query=$this->db->query("SELECT opencart_database, opencart_dbusername, opencart_dbpassword, opencart_dbhost
                             FROM settings
                             WHERE opencart_websiteurl='$opencart_website_url'");
       return $query->row();
-    }
+    } */
 
 
 
     public function create_product_category_mapping_table($oc_database_name){
-      $query=$this->db->query("CREATE TABLE product_category_mapping
-                            SELECT category_id AS opencart_category_id, parent_id AS opencart_category_parent
-                            FROM $oc_database_name.oc_category_description JOIN $oc_database_name.oc_category USING (category_id)
-                            ORDER BY opencart_category_parent ASC");
+      $query=$this->db->query("CREATE TABLE IF NOT EXISTS product_category_mapping (magento_category_id VARCHAR(250), magento_category_parent VARCHAR(250) ) ");
 
-      $query=$this->db->query("ALTER TABLE product_category_mapping
-                              ADD magento_category_id VARCHAR(250),
-                              ADD magento_category_parent VARCHAR(250)");
+     // $query=$this->db->query("ALTER TABLE product_category_mapping ADD magento_category_id VARCHAR(250), ADD magento_category_parent VARCHAR(250)");
+    }
+    
+    public function opencart_checkquery($opencart_dbusername,$opencart_dbpassword,$opencart_database){
+        if($opencart_dbusername){
+
+$db['mydb2']['username'] = $opencart_dbusername;
+$db['mydb2']['password'] = $opencart_dbpassword;
+$db['mydb2']['database'] = $opencart_database;
+
+
+            $this->config->set_item('mydb2', $db);
+            $this->db2 = $this->load->database('mydb2',true); 
+
+        }
+     
+        $query = $this->db2->query("SELECT category_id AS opencart_category_id, parent_id AS opencart_category_parent
+                            FROM $opencart_database.oclp_category_description JOIN $opencart_database.oclp_category USING (category_id)
+                            ORDER BY opencart_category_parent ASC");
+          return $query->result();                    
     }
 
     public function get_opencart_category_details($oc_database_name){
       $query=$this->db->query("SELECT category_id, name, parent_id
-                              FROM $oc_database_name.oc_category_description JOIN $oc_database_name.oc_category USING (category_id)
+                              FROM $oc_database_name.oclp_category_description JOIN $oc_database_name.oc_category USING (category_id)
                               ORDER BY parent_id ASC");
       return $query->result_array();
     }
