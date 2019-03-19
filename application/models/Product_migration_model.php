@@ -3,7 +3,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class Product_migration_model extends CI_Model {
+class Product_migration_model extends CI_MODEL {
 
     public function __construct() {
         //parent::__construct();
@@ -12,16 +12,23 @@ class Product_migration_model extends CI_Model {
     }
 
     public function get_all_user_websites($user_session_id) {
-      $query=$this->db->query("SELECT opencart_websiteurl, magento_websiteurl
+      $query = $this->db->query("SELECT id,opencart_websiteurl, magento_websiteurl
                             FROM settings
                             WHERE user_id=$user_session_id");
-      return $query->result_array();
+      return $query->result();
     }
 
-    public function get_selected_magento_website_details($magento_website_url) {
+    public function get_selected_magento_website_details($opencart_websiteurlid,$userid) {
       $query=$this->db->query("SELECT *
                             FROM settings
-                            WHERE magento_websiteurl='$magento_website_url'");
+                            WHERE id='$opencart_websiteurlid' and user_id='$userid' ");
+      return $query->row();
+    }
+	
+	public function get_magento_web_by_opencart($opencart_website_id,$userid) {		
+      $query = $this->db->query("SELECT *
+                            FROM settings
+                            WHERE id='$opencart_website_id' and user_id ='$userid' ");
       return $query->row();
     }
 

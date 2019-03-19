@@ -117,7 +117,7 @@ class Adminarea extends MY_Controller {
     public function dashboard() {
         
         // Check if the session exists and if the login user is admin
-       // $this->check_session($this->user_role, 1);
+        $this->check_session($this->user_role, 1);
         
         // Get all users registered in the last 7 days
         $statistics = generate_admin_statstics(7, $this->user->get_last_users(7));

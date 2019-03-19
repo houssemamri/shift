@@ -51,28 +51,7 @@ class Migration extends MY_Controller {
         
         // Load User Meta Model
         $this->load->model('user_meta');
-        
-        // Load Posts Model
-        $this->load->model('posts');
-        
-        // Load Plans Model
-        $this->load->model('plans');
-        
-        // Load Urls Model
-        $this->load->model('urls');
-        
-        // Load Networks Model
-        $this->load->model('networks');
-        
-        // Load Campaigns Model
-        $this->load->model('campaigns');
-        
-        // Load Notifications Model
-        $this->load->model('notifications');
-        
-        // Load Options Model
-        $this->load->model('options');
-		
+        		
 		// Load Options Model
         $this->load->model('settings_migration');
         
@@ -135,7 +114,7 @@ class Migration extends MY_Controller {
 	
 	public function all_migration(){
 		$this->check_session($this->user_role, 0);
-        $this->check_unconfirmed_account();
+        //$this->check_unconfirmed_account();
         
         $settings = '';        
         // Get setting template
