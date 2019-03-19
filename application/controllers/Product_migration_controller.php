@@ -159,6 +159,8 @@ class Product_migration_controller extends CI_Controller {
 
 
     public function start_product_migration(){
+      $this->Product_migration_model->create_product_mapping_table();
+
       $this->load->view('user/product_migration_view_three');
     }
 }

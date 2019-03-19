@@ -214,5 +214,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['user/Product_migration_controller/get_product_migration_view_one'] = 'Product_migration_controller/get_product_migration_view_one';
 $route['user/Product_migration_controller/get_user_website_selection'] = 'Product_migration_controller/get_user_website_selection';
 $route['user/Product_migration_controller/start_product_migration'] = 'Product_migration_controller/start_product_migration';
+$route['user/Customer_migration_controller/get_customer_migration_view_one'] = 'Customer_migration_controller/get_customer_migration_view_one';
+$route['user/Customer_migration_controller/get_user_website_selection'] = 'Customer_migration_controller/get_user_website_selection';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

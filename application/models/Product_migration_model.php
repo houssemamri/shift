@@ -81,4 +81,34 @@ class Product_migration_model extends CI_Model {
                               WHERE opencart_category_id=$oc_category_parent");
       return $query->row();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function create_product_mapping_table() {
+      $query = $this->db->query("CREATE TABLE product_mapping (
+                                opencart_product_id VARCHAR(250),
+                                magento_product_id VARCHAR(250)
+                                )");
+    }
+
+    public function get_all_product_details($oc_database_name) {
+      $query = $opencart_db->query("");
+    }
 }

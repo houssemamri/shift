@@ -126,7 +126,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo site_url() ?>" class="new-post-button">
+                    <a href="<?php echo site_url('user/Customer_migration_controller/get_customer_migration_view_one') ?>" class="new-post-button">
                         Customer migration
                     </a>
                 </li>
