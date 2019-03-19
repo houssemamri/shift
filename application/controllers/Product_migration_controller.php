@@ -69,6 +69,7 @@ class Product_migration_controller extends MY_Controller {
 	
 	// start migration product
     public function get_user_website_selection(){
+		$this->check_session($this->user_role, 0);
      // $data['magento_url'] = $this->input->post('magento_website_url');
       $data['opencart_url_id'] = $this->input->post('opencart_website_url');
 
@@ -173,6 +174,7 @@ class Product_migration_controller extends MY_Controller {
 						  $this->Product_migration_model->update_product_category_mapping_table($data['magento_category_id'], $data['magento_category_parent'], $data['opencart_category_id']);
 						  */
 						}
+						$data['success']=$response;
 					  }
 					} 
 				}
