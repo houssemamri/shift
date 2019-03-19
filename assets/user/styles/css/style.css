@@ -3591,3 +3591,12 @@ section > div > div > div > .col-lg-6 > div, section > div > div > div > .col-lg
 	padding-left: 10px;
 	margin: 10px 0px;
 }
+.customsuccess{
+	padding: 15px;
+	font-size: 17px;
+	border-radius: 3px;
+	color: #ffffff;
+	color: #FFFFFF;
+	background-color: #00a28a;
+	border-color: #00a28a; 
+}

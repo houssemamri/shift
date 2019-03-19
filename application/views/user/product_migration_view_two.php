@@ -14,6 +14,10 @@
 						  { ?>
 							  <div class="customerror"><?php echo $data['error']; ?></div>
 						  <?php }
+						  if(!empty($data['success']))
+						  { ?>
+							  <div class="customsuccess"><?php echo $data['error']; ?></div>
+						  <?php }
 						  //print_r($data);
 							/*
 							if ($magento_api_connection_status) {
