@@ -56,44 +56,6 @@
                 . '</li>';
 
         }
-
-        /*
-=======
-
->>>>>>> 7f7177b0ac2dd4d07a9c32c4ab790790c6b469f4
-=======
-
->>>>>>> 7f7177b0ac2dd4d07a9c32c4ab790790c6b469f4
-        if ( get_option('email_marketing') && (plan_feature('sent_emails') > 0) ) {
-            ?>
-            <li<?php if ($this->router->fetch_method() === 'emails') echo ' class="active"'; ?>>
-                <a href="<?php echo site_url('user/emails') ?>">
-                    <i class="icon-envelope"></i><br>
-                    <?php echo $this->lang->line('mu120'); ?>
-                </a>
-            </li>
-            <?php
-        }
-        if (get_option('enable_tools_page') === '1') {
-            ?>
-            <li<?php if ($this->router->fetch_method() === 'tools') echo ' class="active"'; ?>>
-                <a href="<?php echo site_url('user/tools') ?>">
-                    <i class="icon-equalizer"></i><br>
-                    <?php echo $this->lang->line('mu5'); ?>
-                </a>
-            </li>
-            <?php
-        }
-        if ( get_option('enable_bots_page') === '1' ) {
-            ?>
-            <li<?php if ($this->router->fetch_method() === 'bots') echo ' class="active"'; ?>>
-                <a href="<?php echo site_url('user/bots') ?>">
-                    <i class="icon-pin"></i><br>
-                    <?php echo $this->lang->line('mu297'); ?>
-                </a>
-            </li>
-            <?php
-        } */
         ?>
 		<li>
                 <a href="<?php echo site_url('user/migration-settings') ?>">
@@ -121,18 +83,18 @@
 
                 <!-- START -->
                 <li>
-                    <a href="<?php echo site_url('user/Product_migration_controller/get_product_migration_view_one') ?>" class="new-post-button">
-                        Product migration
+                    <a href="<?php echo site_url('user/product-migration') ?>" class="new-post-button">
+                        Product Migration
                     </a>
                 </li>
                 <li>
                     <a href="<?php echo site_url() ?>" class="new-post-button">
-                        Customer migration
+                        Customer Migration
                     </a>
                 </li>
                 <li>
                     <a href="<?php echo site_url() ?>" class="new-post-button">
-                        Order migration
+                        Order Migration
                     </a>
                 </li>
                 <!-- END -->
@@ -164,7 +126,7 @@
                     <ul class="dropdown-menu">
                         <?php
                         if ( !$this->session->userdata( 'member' ) ) {
-                        ?>
+                       /*  ?>
                         <li>
                             <a href="<?= site_url('user/activities') ?>">
                                 <i class="icon-chart"></i> <?php echo $this->lang->line('mu3'); ?>
@@ -174,7 +136,7 @@
                             <a href="<?= site_url('user/team') ?>">
                                 <i class="icon-people"></i> <?php echo $this->lang->line('mu314'); ?>
                             </a>
-                        </li>
+                        </li> */ ?>
                         <li>
                             <a href="<?= site_url('user/settings') ?>">
                                 <i class="icon-settings"></i> <?php echo $this->lang->line('mu7'); ?>

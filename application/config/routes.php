@@ -136,6 +136,8 @@ $route['user/update-migration-setting'] = 'migration/save_setting';
 
 
 
+
+
 // Admin routes
 $route['admin/home'] = 'adminarea/dashboard';
 $route['admin/auto-publish'] = 'adminarea/scheduled_posts';
@@ -211,8 +213,10 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 
-$route['user/Product_migration_controller/get_product_migration_view_one'] = 'Product_migration_controller/get_product_migration_view_one';
-$route['user/Product_migration_controller/get_user_website_selection'] = 'Product_migration_controller/get_user_website_selection';
+$route['user/product-migration'] = 'Product_migration_controller/get_product_migration_view_one';
+$route['user/do-product-migration'] = 'Product_migration_controller/get_user_website_selection';
 $route['user/Product_migration_controller/start_product_migration'] = 'Product_migration_controller/start_product_migration';
+
+$route['user/magento-website-data'] = 'Product_migration_controller/magento_website_data';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

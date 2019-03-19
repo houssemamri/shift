@@ -43,6 +43,8 @@
             ."\n";
         }
         ?>
+		<!-- Optional JavaScript -->
+        <script src="<?= base_url(); ?>assets/js/jquery.min.js"></script>
         
     </head>
     <body>
