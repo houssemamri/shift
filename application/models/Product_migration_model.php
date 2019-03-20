@@ -24,8 +24,8 @@ class Product_migration_model extends CI_MODEL {
                             WHERE id='$opencart_websiteurlid' and user_id='$userid' ");
       return $query->row();
     }
-	
-	public function get_magento_web_by_opencart($opencart_website_id,$userid) {		
+
+	public function get_magento_web_by_opencart($opencart_website_id,$userid) {
       $query = $this->db->query("SELECT *
                             FROM settings
                             WHERE id='$opencart_website_id' and user_id ='$userid' ");
@@ -115,7 +115,28 @@ class Product_migration_model extends CI_MODEL {
                                 )");
     }
 
-    public function get_all_product_details($oc_database_name) {
-      $query = $opencart_db->query("");
+    public function get_all_product_details($opencart_db) {
+      $query = $opencart_db->query("SELECT product_id, name, description, quantity, price
+                                    FROM oc_product_description JOIN oc_product USING (product_id)");
+      return $query->result_array();
+    }
+
+    public function get_category_id_of_product($opencart_db, $oc_product_id) {
+      $query = $opencart_db->query("SELECT category_id
+                                    FROM oc_product_to_category
+                                    WHERE product_id=$oc_product_id");
+      return $query->result_array();
+    }
+
+    public function update_product_mapping_table($mg_product_id, $oc_product_id) {
+      $query = $this->db->query("INSERT INTO product_mapping (opencart_product_id, magento_product_id)
+                                VALUES ($oc_product_id, $mg_product_id)");
+    }
+
+    public function get_product_image_path($opencart_db, $oc_product_id) {
+      $query = $opencart_db->query("SELECT image
+                                    FROM oc_product
+                                    WHERE product_id=$oc_product_id");
+      return $query->row();
     }
 }

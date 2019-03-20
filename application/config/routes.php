@@ -215,7 +215,11 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['user/product-migration'] = 'Product_migration_controller/get_product_migration_view_one';
 $route['user/do-product-migration'] = 'Product_migration_controller/get_user_website_selection';
-$route['user/Product_migration_controller/start_product_migration'] = 'Product_migration_controller/start_product_migration';
+
+
+
+
+
 /* EDIT */
 $route['user/Customer_migration_controller/get_customer_migration_view_one'] = 'Customer_migration_controller/get_customer_migration_view_one';
 $route['user/Customer_migration_controller/get_user_website_selection'] = 'Customer_migration_controller/get_user_website_selection';
