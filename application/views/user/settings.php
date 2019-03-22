@@ -58,7 +58,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                         </h3>
                     </li>
                     <?php
-                    
+
                     // List all apps
                     foreach (glob(APPPATH . 'apps/collection/*', GLOB_ONLYDIR) as $dir) {
 
@@ -74,21 +74,21 @@ use MidrubApps\Classes as MidrubAppsClasses;
                             'Collection',
                             ucfirst($app_dir),
                             'Main'
-                        );       
+                        );
 
                         // Implode the array above
                         $cl = implode('\\',$array);
-                        
+
                         // Get User's settings
                         $user_options = (new $cl())->user_options();
-                        
+
                         if ( !$user_options ) {
                             continue;
                         }
 
                         // Get app info
                         $app_info = (new $cl())->app_info();
-                        
+
                         echo '<li class="nav-item">'
                                 . '<a class="nav-link" data-toggle="tab" href="#app-' . $app_info['app_slug'] . '">'
                                     . $app_info['display_app_name']
@@ -96,7 +96,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                             . '</li>';
 
                     }
-                    
+
                     ?>
                 </ul>
             </div>
@@ -113,7 +113,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                             <div class="panel-body">
                                 <ul class="settings-list-options">
                                 <?php
-                                
+
                                 echo (new MidrubAppsClasses\Settings)->process((new MidrubAppsClasses\User_main_options)->get_options());
 
                                 if ( get_option('enable_multilanguage') ) {
@@ -190,7 +190,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                 <ul class="settings-list-plan-usage">
                                     <li>
                                         <?php
-                                        
+
                                         // Get the user's plan
                                         $user_plan = get_user_option( 'plan', $this->user_id );
 
@@ -199,10 +199,10 @@ use MidrubApps\Classes as MidrubAppsClasses;
 
                                         // Get plan data
                                         $plan_data = $this->plans->get_plan( $user_plan );
-                                        
+
                                         // Calculate remaining time
                                         $time = strip_tags( calculate_time(strtotime($plan_end), time()) );
-                                        
+
                                         $period = (strtotime($plan_end) - (strtotime($plan_end) - ($plan_data[0]['period'] * 86400)));
 
                                         $time_taken = ( strtotime($plan_end) - time() );
@@ -219,7 +219,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                             $color = ' bg-danger';
 
                                         }
-        
+
                                         ?>
                                         <div class="row">
                                             <div class="col-xl-9 col-sm-8 col-6">
@@ -237,24 +237,24 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                     </li>
                                     <li>
                                         <?php
-                                        
+
                                         // Get user storage
                                         $user_storage = get_user_option( 'user_storage', $this->user_id );
-                                        
+
                                         if ( !$user_storage ) {
                                             $user_storage = 0;
                                         }
-                                        
+
                                         $plan_storage = 0;
-                                        
+
                                         $plan_st = plan_feature('storage');
-                                        
+
                                         if ( $plan_st ) {
-                                            
+
                                             $plan_storage = $plan_st;
-                                            
+
                                         }
-                                        
+
                                         // Get percentage
                                         $free_space = number_format((100 - ( ( $plan_storage - $user_storage ) / $plan_storage ) * 100));
 
@@ -268,7 +268,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                             $color = ' bg-danger';
 
                                         }
-        
+
                                         ?>
                                         <div class="row">
                                             <div class="col-xl-9 col-sm-8 col-6">
@@ -278,11 +278,11 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                             </div>
                                             <div class="col-xl-3 col-sm-4 col-6 text-right">
                                                 <?php
-                                                
+
                                                 if ( $user_storage > 0 ) {
                                                     $user_storage = calculate_size($user_storage);
                                                 }
-                                                
+
                                                 echo $user_storage . '/' . calculate_size($plan_storage);
                                                 ?>
                                             </div>
@@ -290,19 +290,19 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                         <div class="progress">
                                             <div class="progress-bar<?php echo $color; ?>" role="progressbar" style="width: <?php echo $free_space; ?>%" aria-valuenow="<?php echo $free_space; ?>" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                    </li>  
+                                    </li>
                                     <?php
                                     $team_limits = plan_feature('teams');
                                     if ( $team_limits > 0 ) {
                                     ?>
                                     <li>
                                         <?php
-                                        
+
                                         // Get team members
                                         $members = $this->team->get_members( $this->user_id );
-                                        
+
                                         if ( !$members ) {
-                                            $members = 0;    
+                                            $members = 0;
                                         }
 
                                         // Get percentage
@@ -318,7 +318,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                             $color = ' bg-danger';
 
                                         }
-        
+
                                         ?>
                                         <div class="row">
                                             <div class="col-xl-9 col-sm-8 col-6">
@@ -335,7 +335,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                         <div class="progress">
                                             <div class="progress-bar<?php echo $color; ?>" role="progressbar" style="width: <?php echo $members_left; ?>%" aria-valuenow="<?php echo $members_left; ?>" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                    </li> 
+                                    </li>
                                     <?php
                                     }
                                     ?>
@@ -345,7 +345,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                 foreach (glob(APPPATH . 'apps/collection/*', GLOB_ONLYDIR) as $dir) {
 
                                     $app_dir = trim(basename($dir) . PHP_EOL);
-                                    
+
                                     if ( !get_option('app_' . $app_dir . '_enable') || !plan_feature('app_' . $app_dir) ) {
                                         continue;
                                     }
@@ -360,13 +360,13 @@ use MidrubApps\Classes as MidrubAppsClasses;
 
                                     // Implode the array above
                                     $class = implode('\\', $array);
-                                    
+
                                     // Get app info
                                     $app_info = (new $class())->app_info();
 
                                     // Get plan's limits
                                     (new $class())->plan_limits($app_dir);
-                                    
+
                                     // Create an array
                                     $array = array(
                                         'MidrubApps',
@@ -381,23 +381,23 @@ use MidrubApps\Classes as MidrubAppsClasses;
 
                                     // Get app limits
                                     $app_limits = (new $cl())->get_limits();
-                                    
+
                                     if ( $app_limits ) {
-                                        
+
                                         foreach ( $app_limits as $app_limit ) {
-                                            
+
                                             if ( $app_limit['type'] === 'text' ) {
-                                                
+
                                                 $total = plan_feature($app_limit['name']);
-                                                
+
                                                 if ( !$total ) {
                                                     continue;
                                                 }
 
                                                 $usage_limit = (new $cl())->get_usage($app_limit['name']);
-                                                
+
                                                 $left = (100 - ( ( $total - $usage_limit ) / $total ) * 100);
-                                                
+
                                                 // Get processbar color
                                                 if ( $left < 90 ) {
 
@@ -408,7 +408,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                                     $color = ' bg-danger';
 
                                                 }
-                                            
+
                                                 echo '<li>'
                                                         . '<div class="row">'
                                                             . '<div class="col-xl-9 col-sm-8 col-6">'
@@ -422,16 +422,16 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                                             . '<div class="progress-bar ' . $color . '" role="progressbar" style="width: ' . $left . '%" aria-valuenow="' . $left . '" aria-valuemin="0" aria-valuemax="100"></div>'
                                                         . '</div>'
                                                     . '</li>';
-                                                
+
                                             }
-                                            
+
                                         }
-                                        
+
                                     }
-                                    
+
                                 }
                                 ?>
-                                </ul>                                
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -455,7 +455,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                                 <div class="row">
                                     <div class="col-xl-12">
                                         <ul class="pagination" data-type="settings-invoices">
-                                            
+
                                         </ul>
                                     </div>
                                 </div>
@@ -464,7 +464,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
                     </div>
                     <?php
                     }
-                    
+
                     // List all apps
                     foreach (glob(APPPATH . 'apps/collection/*', GLOB_ONLYDIR) as $dir) {
 
@@ -480,14 +480,14 @@ use MidrubApps\Classes as MidrubAppsClasses;
                             'Collection',
                             ucfirst($app_dir),
                             'Main'
-                        );       
+                        );
 
                         // Implode the array above
                         $cl = implode('\\',$array);
-                        
+
                         // Get User's settings
                         $user_options = (new $cl())->user_options();
-                        
+
                         if ( !$user_options ) {
                             continue;
                         }
@@ -510,11 +510,11 @@ use MidrubApps\Classes as MidrubAppsClasses;
                             . '</div>';
 
                     }
-                    
+
                     ?>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 </section>
 
@@ -539,10 +539,10 @@ use MidrubApps\Classes as MidrubAppsClasses;
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control new-password" id="new-password" maxlength="50" placeholder="<?php echo $this->lang->line('enter_new_password'); ?>" name="new-password" autocomplete="off" required="required">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         <input type="password" class="form-control repeat-password" id="repeat-password" maxlength="50" placeholder="<?php echo $this->lang->line('repeat_password'); ?>" name="repeat-password" autocomplete="off" required="required">
-                    </div>                     
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" data-type="main" class="btn btn-primary pull-right"><?php echo $this->lang->line('change'); ?></button>
@@ -569,7 +569,7 @@ use MidrubApps\Classes as MidrubAppsClasses;
             <div class="modal-body">
                 <div class="form-group text-center">
                     <button type="button" data-type="main" class="btn btn-danger delete-user-account"><?php echo $this->lang->line('yes_delete_my_account'); ?></button>
-                </div>               
+                </div>
             </div>
         </div>
     </div>

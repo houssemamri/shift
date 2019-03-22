@@ -13,300 +13,206 @@ class Product_migration_controller extends MY_Controller {
 	public $user_id, $user_role, $user_status, $socials = array();
   public $opencart_db;
 
-    public function __construct() {
-      parent::__construct();
-      $this->load->model('user');
-      $this->load->model('Product_migration_model');
-      $this->load->helper(array('db_dinamic_helper'));
+  public function __construct() {
+    parent::__construct();
+    $this->load->model('user');
+    $this->load->model('Product_migration_model');
+    $this->load->helper(array('db_dinamic_helper'));
 
-	  // Load session library
-      $this->load->library('session');
-	  // Load URL Helper
-      $this->load->helper('url');
-	  // Load Main Helper
-      $this->load->helper('main_helper');
-	  // Load User Helper
-      $this->load->helper('user_helper');
+    // Load session library
+    $this->load->library('session');
+    // Load URL Helper
+    $this->load->helper('url');
+    // Load Main Helper
+    $this->load->helper('main_helper');
+    // Load User Helper
+    $this->load->helper('user_helper');
 
-	  // Check if session username exists
-      if (isset($this->session->userdata['username'])) {
-
-            // Set user_id
-            $this->user_id = $this->user->get_user_id_by_username($this->session->userdata['username']);
-
-            // Set user_role
-            $this->user_role = $this->user->check_role_by_username($this->session->userdata['username']);
-
-            // Set user_status
-            $this->user_status = $this->user->check_status_by_username($this->session->userdata['username']);
-
-        }
+    // Check if session username exists
+    if (isset($this->session->userdata['username'])) {
+      // Set user_id
+      $this->user_id = $this->user->get_user_id_by_username($this->session->userdata['username']);
+      // Set user_role
+      $this->user_role = $this->user->check_role_by_username($this->session->userdata['username']);
+      // Set user_status
+      $this->user_status = $this->user->check_status_by_username($this->session->userdata['username']);
     }
+  }
 
-    public function get_product_migration_view_one(){
+
+
+  // Switch to "product_migration_view_one.php" view after user clicks on "Product migration" button on dashboard.
+  public function get_product_migration_view_one(){
  	  $this->check_session($this->user_role, 0);
-      $all_website = $this->Product_migration_model->get_all_user_websites($this->user_id);
+    $all_website = $this->Product_migration_model->get_all_user_websites($this->user_id);
 
 	  $this->body = 'user/product_migration_one';
 	  $this->content = ['user_websites' => $all_website];
 	  $this->user_layout();
-    }
+  }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// onchange web url return
+	// After user selects his OpenCart website url using dropdown menu in "product_migration_one.php" view, display corresponding Magento  website url.
 	public function magento_website_data(){
 		$this->check_session($this->user_role, 0);
 		$opencart_website_id = $this->input->post('opencart_websiteurl');
-		$magentoweb = $this->Product_migration_model->get_magento_web_by_opencart($opencart_website_id,$this->user_id);
-		if(!empty($magentoweb)){
+		$magentoweb = $this->Product_migration_model->get_all_user_website_details($opencart_website_id, $this->user_id);
+		if (!empty($magentoweb)) {
 			$magentoweb =  $magentoweb->magento_websiteurl;
-		}else{
+		} else {
 			$magentoweb = '';
 		}
+
 		$data = [
-				'webdata' => $magentoweb
-            ];
-         echo json_encode($data);
+		    'webdata' => $magentoweb
+    ];
+    echo json_encode($data);
 	}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// start migration product
-    public function get_user_website_selection(){
+  // Start product migration after the user clicks "Start product migration" in "product_migration_view_one.php" view, after the connections are made, start with category and then product migration.
+  public function get_user_website_selection(){
 		$this->check_session($this->user_role, 0);
-     // $data['magento_url'] = $this->input->post('magento_website_url');
-      $data['opencart_url_id'] = $this->input->post('opencart_website_url');
+    $data['opencart_url_id'] = $this->input->post('opencart_website_url');
 
-      // get connection details.
-      $setting_data = $this->Product_migration_model->get_selected_magento_website_details($data['opencart_url_id'],$this->user_id);
-	  if(empty($setting_data)){
+    // Get database and API connection details by querying "settings" table of our backend.
+    $setting_data = $this->Product_migration_model->get_all_user_website_details($data['opencart_url_id'], $this->user_id);
+	  if (empty($setting_data)) {
 		  $data['error'] = "Url mismatch";
-	  }else{
-		  //Set magenot database config dynamically
-		  $magento_config_app = switch_db_dynamic($setting_data->magento_dbhost,$setting_data->magento_dbusername,$setting_data->magento_dbpassword,$setting_data->magento_database);
+	  } else {
+		  // Create a Magento database connection dynamically.
+		  $magento_config_app = switch_db_dynamic($setting_data->magento_dbhost, $setting_data->magento_dbusername, $setting_data->magento_dbpassword, $setting_data->magento_database);
 
-		  $this->magento_db = $this->load->database($magento_config_app,true);
-		  if(empty($this->magento_db)){
-			   $data['error'] = "Magento connection failed";
-		  }else{
+		  $this->magento_db = $this->load->database($magento_config_app, TRUE);
+		  if (empty($this->magento_db)) {
+			     $data['error'] = "Magento connection failed";
+		  } else {
+         // Create a Magento database connection dynamically after a successful Magento database connection is made.
+    	   $opencart_config_app = switch_db_dynamic($setting_data->opencart_dbhost, $setting_data->opencart_dbusername, $setting_data->opencart_dbpassword, $setting_data->opencart_database);
+    	   $this->opencart_db = $this->load->database($opencart_config_app, TRUE);
+    	   if(empty($this->opencart_db)){
+    		        $data['error'] = "Opencart connection failed";
+    	   } else {
+            // Create a Magento API connection a successful Magento and OpenCart database connection is made.
+            require('Marest.php');
+            $this->api = new Marest($setting_data->magento_websiteurl);
+            $connection = $this->api->connect($setting_data->magento_admin, $setting_data->magento_admin_password);
 
-				  //Set opencart database config dynamically
-				$opencart_config_app = switch_db_dynamic($setting_data->opencart_dbhost,$setting_data->opencart_dbusername,$setting_data->opencart_dbpassword,$setting_data->opencart_database);
-				$this->opencart_db = $this->load->database($opencart_config_app,true);
-				if(empty($this->opencart_db)){
-					$data['error'] = "Opencart connection failed";
-				}else{
-					  // Create Magento API connection.
-					  require('Marest.php');
-					  $data['magento_api_connection_status'] = $this->api=new Marest($setting_data->magento_websiteurl);
-					  $this->api->connect($setting_data->magento_admin, $setting_data->magento_admin_password);
+            // Starting category migration.
+            $product_category_mapping_table_name = $this->session->userdata['username'].'_'.$setting_data->id.'_product_category_mapping';
+            $this->Product_migration_model->create_product_category_mapping_table($product_category_mapping_table_name);
+    			  $all_opencart_category_ids = $this->Product_migration_model->get_all_opencart_category_ids($this->opencart_db, $setting_data->opencart_dbprefix);
 
-					  // Starting category migration.
-					  $this->Product_migration_model->create_product_category_mapping_table();
-					  $opencartdb = $this->Product_migration_model->opencart_checkquery($this->opencart_db,$setting_data->opencart_database);
-
-
-					  foreach($opencartdb as $ocvalue){
-						 $ocdata = array("opencart_category_id" => $ocvalue->opencart_category_id,
-										"opencart_category_parent" => $ocvalue->opencart_category_parent);
-						 $mapping_insert = $this->Product_migration_model->insert_mapping_data($ocdata);
+            foreach ($all_opencart_category_ids as $ocvalue) {
+              $ocdata = array (
+                          "opencart_category_id" => $ocvalue->opencart_category_id,
+    		                  "opencart_category_parent" => $ocvalue->opencart_category_parent
+                        );
+						  $this->Product_migration_model->insert_all_opencart_id_into_mapping_table($product_category_mapping_table_name, $ocdata);
 					  }
 
-					  $data['opencart_category_details'] = $this->Product_migration_model->get_opencart_category_details($this->opencart_db);
-					  foreach ($data['opencart_category_details'] as $row) {
-						foreach ($row as $key => $value) {
-						  switch ($key) {
-							case 'category_id':
-							  $data['opencart_category_id'] = $value;
-							  break;
-							case 'name':
-							  $data['magento_category_name'] = $value;
-							  break;
-							case 'parent_id':
-							  $data['opencart_category_parent'] = $value;
-							  break;
-						  }
-						}
+					  $all_opencart_category_details = $this->Product_migration_model->get_all_opencart_category_details($this->opencart_db, $setting_data->opencart_dbprefix);
+            foreach ($all_opencart_category_details as $row) {
+              $opencart_category_id = $row['category_id'];
+              $magento_category_name = $row['name'];
+              $opencart_category_parent = $row['parent_id'];
 
+  						if ($opencart_category_parent == 0) {
+  						  $magento_category_parent = 2;
+  						  $dataa=array(
+    							"category" => array(
+    							  'name'              => $magento_category_name,
+    							  'parent_id'         => $magento_category_parent,
+    							  'is_active'         => TRUE
+    							)
+  						  );
+  						  $response = $this->api->post("categories", $dataa);
+                $magento_category_id = $response->id;
 
-						if ($data['opencart_category_parent'] == 0) {
-						  $data['magento_category_parent'] = 2;
-						  $dataa=array(
-  							"category" => array(
-  							  'name'              => $data['magento_category_name'],
-  							  'parent_id'         => $data['magento_category_parent'],
+  						  $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $magento_category_id, $magento_category_parent, $opencart_category_id);
+  						} else {
+  						  $magento_category_parent = $this->Product_migration_model->get_new_product_category_id($product_category_mapping_table_name, $opencart_category_parent);
+                $dataa=array(
+  							  "category" => array(
+  							  'name'              => $magento_category_name,
+  							  'parent_id'         => $magento_category_parent,
   							  'is_active'         => TRUE
-  							)
-						  );
+  							  )
+						    );
+                $response = $this->api->post("categories", $dataa);
+                $magento_category_id = $response->id;
 
-						  $response = $this->api->post("categories", $dataa);
-						  foreach ($response as $key => $value) {
-  							if($key == 'id'){
-  							  $data['magento_category_id']=$value;
-  							}
+						    $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $magento_category_id, $magento_category_parent, $opencart_category_id);
 						  }
-
-						  $data['response_status']=$response;
-
-						  $this->Product_migration_model->update_product_category_mapping_table($data['magento_category_id'], $data['magento_category_parent'], $data['opencart_category_id']);
-
-						} else {
-						  $data['magento_category_parent_row'] = $this->Product_migration_model->get_new_product_category_id($data['opencart_category_parent']);
-						  foreach ($data['magento_category_parent_row'] as $key => $value) {
-							  if ($key=='magento_category_id') {
-								$data['magento_category_parent']=$value;
-							  }
-						  }
-
-						  $dataa=array(
-							"category" => array(
-							  'name'              => $data['magento_category_name'],
-							  'parent_id'         => $data['magento_category_parent'],
-							  'is_active'         => TRUE
-							)
-						  );
-
-						  $response = $this->api->post("categories", $dataa);
-						  foreach ($response as $key => $value) {
-							if($key=='id'){
-							  $data['magento_category_id']=$value;
-							}
-						  }
-						  $data['response_status']=$response;
-
-						  $this->Product_migration_model->update_product_category_mapping_table($data['magento_category_id'], $data['magento_category_parent'], $data['opencart_category_id']);
-
-						}
-						$data['success']=$response;
+						  $data['success']=$response;
 					  }
             if ($response) {
-              $this->Product_migration_model->create_product_mapping_table();
-              $data['all_product_details'] = $this->Product_migration_model->get_all_product_details($this->opencart_db);
-              foreach ($data['all_product_details'] as $row) {
-                foreach ($row as $key => $value) {
-                  switch ($key) {
-                    case 'product_id':
-                      $product_id=$value;
-                      break;
-                    case 'name':
-                      $product_name=$value;
-                      break;
-                    case 'description':
-                      $product_description=$value;
-                      break;
-                    case 'quantity':
-                      $product_quantity=$value;
-                      break;
-                    case 'price':
-                      $product_price=$value;
-                      break;
-                  }
-                }
-                $data['category_id_of_product'] = array();
-                $category_id_of_product_raw = $this->Product_migration_model->get_category_id_of_product($this->opencart_db, $product_id);
-                foreach ($category_id_of_product_raw as $row) {
-                  foreach ($row as $key => $value) {
-                    $magento_category_id_of_product_raw = $this->Product_migration_model->get_magento_category_id_of_product($value);
-                    foreach ($magento_category_id_of_product_raw as $roww) {
-                      foreach ($roww as $keyy => $valuee) {
-                        array_push($data['category_id_of_product'], $valuee);
-                      }
-                    }
-                  }
-                }
-                if ($product_quantity>=1) {
-                  $product_in_stock = true;
-                } else {
-                  $product_in_stock = false;
+              $product_mapping_table_name = $this->session->userdata['username'].'_'.$setting_data->id.'_product_mapping';
+              $this->Product_migration_model->create_product_mapping_table($product_mapping_table_name);
+              $all_opencart_product_details = $this->Product_migration_model->get_all_opencart_product_details($this->opencart_db, $setting_data->opencart_dbprefix);
+              foreach ($all_opencart_product_details as $row) {
+                $opencart_product_id = $row['product_id'];
+                $magento_product_name = $row['name'];
+                $magento_product_description = $row['description'];
+                $magento_product_quantity = $row['quantity'];
+                $magento_product_price = $row['price'];
+
+                $magento_category_id_of_product = array();
+                $opencart_category_id_of_product = $this->Product_migration_model->get_opencart_category_id_of_product($this->opencart_db, $setting_data->opencart_dbprefix, $opencart_product_id);
+                foreach ($opencart_category_id_of_product as $row) {
+                  $value = $this->Product_migration_model->get_magento_category_id_of_product($product_category_mapping_table_name, $row['category_id']);
+                  array_push($magento_category_id_of_product, $value);
                 }
 
-                $dataaaa = array(
+                if ($magento_product_quantity>=1) {
+                  $magento_product_in_stock = TRUE;
+                } else {
+                  $magento_product_in_stock = FALSE;
+                }
+
+                $dataa = array(
                   "product" => array(
-                    "sku"               => $product_id,
-                    'name'              => $product_name,
+                    "sku"               => $opencart_product_id,
+                    'name'              => $magento_product_name,
                     'visibility'        => 4,
                     'type_id'           => 'simple',
-                    'price'             => $product_price,
+                    'price'             => $magento_product_price,
                     'status'            => 1,
                     'attribute_set_id'  => 4,
                     'weight'            => 1,
                     'custom_attributes' => array(
-                      array( 'attribute_code' => 'category_ids',      'value' => $data['category_id_of_product'] ),
-                      array( 'attribute_code' => 'description',       'value' => $product_description ),
-                      array( 'attribute_code' => 'short_description', 'value' => $product_description )
+                      array( 'attribute_code' => 'category_ids',      'value' => $magento_category_id_of_product ),
+                      array( 'attribute_code' => 'description',       'value' => $magento_product_description ),
+                      array( 'attribute_code' => 'short_description', 'value' => $magento_product_description )
                     ),
                     'extension_attributes'    => array(
                       'website_ids'           => array(
                         1
                       ),
                       'stock_item'            => array(
-                        'qty'                 => $product_quantity,
-                        'is_in_stock'         => $product_in_stock
+                        'qty'                 => $magento_product_quantity,
+                        'is_in_stock'         => $magento_product_in_stock
                       )
                     )
                   )
                 );
 
-                $data['responsee'] = $this->api->post("products", $dataaaa);
-                foreach($data['responsee'] as $key=>$value){
-                  if($key=='id'){
-                    $magento_product_id=$value;
-                  }
-                }
+                $response = $this->api->post("products", $dataa);
+                $magento_product_id = $response->id;
 
-                $this->Product_migration_model->update_product_mapping_table($magento_product_id, $product_id);
-                $image_path = $this->Product_migration_model->get_product_image_path($this->opencart_db, $product_id);
-                foreach ($image_path as $key => $value) {
-                  if ($key == 'image') {
-                    $data['image_path'] = $value;
-                  }
-                }
+                $this->Product_migration_model->update_product_mapping_table($product_mapping_table_name, $magento_product_id, $opencart_product_id);
+
+                $image_path = $this->Product_migration_model->get_opencart_product_image_path($this->opencart_db, $setting_data->opencart_dbprefix, $opencart_product_id);
+
                 $opencart_website_url_string = $setting_data->opencart_websiteurl;
-                $image_url = $opencart_website_url_string."/image"."/".$data['image_path'];
-                $starting_point= strlen($opencart_website_url_string)+21;
-                $ending_point= strlen($image_url)-$starting_point+1;
-                $product_image_name=substr("$image_url", $starting_point, $ending_point);
-                print_r($product_image_name);
+                $image_url = $opencart_website_url_string."image"."/".$image_path;
+                $starting_point = strlen($opencart_website_url_string)+19;
+                $ending_point = strlen($image_url)-$starting_point;
+                $product_image_name = substr("$image_url", $starting_point, $ending_point);
 
-                $dataaaaaa = array(
+                $dataaa = array(
                   "entry" => array(
                     'media_type'=> 'image',
                     'label'     => 'Image',
@@ -324,11 +230,10 @@ class Product_migration_controller extends MY_Controller {
                     )
                   )
                 );
-                $data['responseeee']=$this->api->post("products/"."$product_id"."/media", $dataaaaaa);
-
+                $response = $this->api->post("products/"."$magento_product_id"."/media", $dataaa);
               }
             } else {
-
+              //
             }
 					}
 				}

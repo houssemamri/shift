@@ -23,7 +23,7 @@
                                     <input class="new-message form-control opencart_dbuser" type="text" placeholder="Opencart Database User" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="new-message form-control opencart_dbpassword" type="text" placeholder="Opencart Database Password" required>
+                                    <input class="new-message form-control opencart_dbpassword" type="text" placeholder="Opencart Database Password">
                                 </div>
                                 <div class="form-group">
                                     <input class="new-message form-control opencart_dbhost" type="text" placeholder="Opencart Database Host" required>
@@ -47,13 +47,13 @@
                                     <input class="new-message form-control magento_dbuser" type="text" placeholder="Magento Database User" required>
                                 </div>
 								<div class="form-group">
-                                    <input class="new-message form-control magento_dbpassword" type="text" placeholder="Magento Database Password" required>
+                                    <input class="new-message form-control magento_dbpassword" type="text" placeholder="Magento Database Password">
                                 </div>
 								<div class="form-group">
                                     <input class="new-message form-control magento_dbhost" type="text" placeholder="Magento Database Host" required>
                                 </div>
 								<div class="form-group">
-                                    <input class="new-message form-control magento_dbprefix" type="text" placeholder="Magento Database Prefix" required>
+                                    <input class="new-message form-control magento_dbprefix" type="text" placeholder="Magento Database Prefix">
                                 </div>
 								<div class="form-group">
                                     <input class="new-message form-control magento_admin" type="text" placeholder="Magento Admin Username" required>
@@ -61,7 +61,7 @@
 								<div class="form-group">
                                     <input class="new-message form-control magento_admin_password" type="text" placeholder="Magento Admin Password" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-labeled btn-primary pull-right">Save Settings</button>
 									<br/>

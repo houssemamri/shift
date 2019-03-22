@@ -9,8 +9,8 @@
                                 <h2 style="margin-top:20px;"><i class="fa fa-cog"></i> All Migration Setting List <a href="<?php echo site_url('user/new-migration-setting') ?>" class="pull-right">New Migration Setting</a></h2>
                             </div>
                         </div>
-                        
-                        <div class="row settings-item">      
+
+                        <div class="row settings-item">
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
@@ -41,7 +41,7 @@
                                     <input class="new-message form-control opencart_dbuser" type="text" placeholder="Opencart Database User" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="new-message form-control opencart_dbpassword" type="text" placeholder="Opencart Database Password" required>
+                                    <input class="new-message form-control opencart_dbpassword" type="text" placeholder="Opencart Database Password">
                                 </div>
                                 <div class="form-group">
                                     <input class="new-message form-control opencart_dbhost" type="text" placeholder="Opencart Database Host" required>
@@ -65,13 +65,13 @@
                                     <input class="new-message form-control magento_dbuser" type="text" placeholder="Magento Database User" required>
                                 </div>
 								<div class="form-group">
-                                    <input class="new-message form-control magento_dbpassword" type="text" placeholder="Magento Database Password" required>
+                                    <input class="new-message form-control magento_dbpassword" type="text" placeholder="Magento Database Password">
                                 </div>
 								<div class="form-group">
                                     <input class="new-message form-control magento_dbhost" type="text" placeholder="Magento Database Host" required>
                                 </div>
 								<div class="form-group">
-                                    <input class="new-message form-control magento_dbprefix" type="text" placeholder="Magento Database Prefix" required>
+                                    <input class="new-message form-control magento_dbprefix" type="text" placeholder="Magento Database Prefix">
                                 </div>
 								<div class="form-group">
                                     <input class="new-message form-control magento_admin" type="text" placeholder="Magento Admin Username" required>
@@ -79,7 +79,7 @@
 								<div class="form-group">
                                     <input class="new-message form-control magento_admin_password" type="text" placeholder="Magento Admin Password" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                   <!--  <button type="button" class="btn btn-labeled btn-danger pull-left delete-account">Delete Settings</button> <p class="pull-left confirm">Are you sure? <a href="#" class="yes">Yes</a><a href="#" class="no">No</a></p>-->
                                     <button type="submit" class="btn btn-labeled btn-primary pull-right">Update Settings</button>
@@ -94,6 +94,6 @@
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
 </section>
