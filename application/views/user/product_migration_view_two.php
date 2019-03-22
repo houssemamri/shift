@@ -16,7 +16,7 @@
 						  <?php }
 						  if(!empty($data['success']))
 						  { ?>
-							  <div class="customsuccess"><?php echo $data['error']; ?></div>
+							  <div class="customsuccess"><?php echo $data['success']; ?></div>
 						  <?php }
 
 						  ?>
@@ -32,4 +32,5 @@
                           </div>
                       </div>
                       <?php
+
                       ?>

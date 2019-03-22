@@ -150,7 +150,7 @@ class Product_migration_controller extends MY_Controller {
 						 $mapping_insert = $this->Product_migration_model->insert_mapping_data($ocdata);
 					  }
 
-					  $data['opencart_category_details'] = $this->Product_migration_model->get_opencart_category_details($this->opencart_db,$setting_data->opencart_database);
+					  $data['opencart_category_details'] = $this->Product_migration_model->get_opencart_category_details($this->opencart_db);
 					  foreach ($data['opencart_category_details'] as $row) {
 						foreach ($row as $key => $value) {
 						  switch ($key) {
@@ -170,18 +170,18 @@ class Product_migration_controller extends MY_Controller {
 						if ($data['opencart_category_parent'] == 0) {
 						  $data['magento_category_parent'] = 2;
 						  $dataa=array(
-							"category" => array(
-							  'name'              => $data['magento_category_name'],
-							  'parent_id'         => $data['magento_category_parent'],
-							  'is_active'         => TRUE
-							)
+  							"category" => array(
+  							  'name'              => $data['magento_category_name'],
+  							  'parent_id'         => $data['magento_category_parent'],
+  							  'is_active'         => TRUE
+  							)
 						  );
 
 						  $response = $this->api->post("categories", $dataa);
 						  foreach ($response as $key => $value) {
-							if($key == 'id'){
-							  $data['magento_category_id']=$value;
-							}
+  							if($key == 'id'){
+  							  $data['magento_category_id']=$value;
+  							}
 						  }
 
 						  $data['response_status']=$response;
@@ -217,7 +217,7 @@ class Product_migration_controller extends MY_Controller {
 						}
 						$data['success']=$response;
 					  }
-            if (true) {
+            if ($response) {
               $this->Product_migration_model->create_product_mapping_table();
               $data['all_product_details'] = $this->Product_migration_model->get_all_product_details($this->opencart_db);
               foreach ($data['all_product_details'] as $row) {
@@ -244,7 +244,12 @@ class Product_migration_controller extends MY_Controller {
                 $category_id_of_product_raw = $this->Product_migration_model->get_category_id_of_product($this->opencart_db, $product_id);
                 foreach ($category_id_of_product_raw as $row) {
                   foreach ($row as $key => $value) {
-                    array_push($data['category_id_of_product'], $value);
+                    $magento_category_id_of_product_raw = $this->Product_migration_model->get_magento_category_id_of_product($value);
+                    foreach ($magento_category_id_of_product_raw as $roww) {
+                      foreach ($roww as $keyy => $valuee) {
+                        array_push($data['category_id_of_product'], $valuee);
+                      }
+                    }
                   }
                 }
                 if ($product_quantity>=1) {
