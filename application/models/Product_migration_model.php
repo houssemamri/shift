@@ -14,7 +14,7 @@ class Product_migration_model extends CI_MODEL {
     public function get_all_user_websites($user_session_id) {
       $query = $this->db->query("SELECT id,opencart_websiteurl, magento_websiteurl
                                 FROM settings
-                                WHERE user_id = $user_session_id");
+                                WHERE user_id=$user_session_id");
       return $query->result();
     }
 
@@ -24,7 +24,7 @@ class Product_migration_model extends CI_MODEL {
       $query = $this->db->query("SELECT *
                                 FROM settings
                                 WHERE id='$opencart_website_id'
-                                AND user_id = '$userid' ");
+                                AND user_id='$userid' ");
       return $query->row();
     }
 
@@ -72,9 +72,9 @@ class Product_migration_model extends CI_MODEL {
 
     public function update_product_category_mapping_table($table_name, $mg_category_id, $mg_category_parent, $oc_category_id){
       $query = $this->db->query("UPDATE $table_name
-                                SET magento_category_id = $mg_category_id,
-                                    magento_category_parent = $mg_category_parent
-                                WHERE opencart_category_id = $oc_category_id");
+                                SET magento_category_id=$mg_category_id,
+                                    magento_category_parent=$mg_category_parent
+                                WHERE opencart_category_id=$oc_category_id");
     }
 
 
@@ -82,7 +82,7 @@ class Product_migration_model extends CI_MODEL {
     public function get_new_product_category_id($table_name, $oc_category_parent){
       $query = $this->db->query("SELECT magento_category_id
                             FROM $table_name
-                            WHERE opencart_category_id = $oc_category_parent");
+                            WHERE opencart_category_id=$oc_category_parent");
       $query_result = $query->row();
       return $query_result->magento_category_id;
     }
@@ -109,7 +109,7 @@ class Product_migration_model extends CI_MODEL {
     public function get_opencart_category_id_of_product($opencart_db, $prefix, $oc_product_id) {
       $query = $opencart_db->query("SELECT category_id
                                     FROM {$prefix}product_to_category
-                                    WHERE product_id = $oc_product_id");
+                                    WHERE product_id=$oc_product_id");
       return $query->result_array();
     }
 
@@ -118,7 +118,7 @@ class Product_migration_model extends CI_MODEL {
     public function get_magento_category_id_of_product($table_name, $oc_category_id) {
       $query = $this->db->query("SELECT magento_category_id
                                 FROM $table_name
-                                WHERE opencart_category_id = $oc_category_id");
+                                WHERE opencart_category_id=$oc_category_id");
       $query_result = $query->row();
       return $query_result->magento_category_id;
     }
@@ -135,7 +135,7 @@ class Product_migration_model extends CI_MODEL {
     public function get_opencart_product_image_path($opencart_db, $prefix, $oc_product_id) {
       $query = $opencart_db->query("SELECT image
                                     FROM {$prefix}product
-                                    WHERE product_id = $oc_product_id");
+                                    WHERE product_id=$oc_product_id");
       $query_result = $query->row();
       return $query_result->image;
     }
