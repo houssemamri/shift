@@ -1,15 +1,9 @@
 <?php
-/*
-Sanket Patel
-Date: 2019.03.18
-*/
-
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
 class Product_migration_controller extends MY_Controller {
-
 	public $user_id, $user_role, $user_status, $socials = array();
   public $opencart_db;
 
@@ -19,22 +13,18 @@ class Product_migration_controller extends MY_Controller {
     $this->load->model('Product_migration_model');
     $this->load->helper(array('db_dinamic_helper'));
 
-    // Load session library
     $this->load->library('session');
-    // Load URL Helper
     $this->load->helper('url');
-    // Load Main Helper
     $this->load->helper('main_helper');
-    // Load User Helper
     $this->load->helper('user_helper');
 
-    // Check if session username exists
+    // Check if session username exists.
     if (isset($this->session->userdata['username'])) {
-      // Set user_id
+      // Set user id.
       $this->user_id = $this->user->get_user_id_by_username($this->session->userdata['username']);
-      // Set user_role
+      // Set user role.
       $this->user_role = $this->user->check_role_by_username($this->session->userdata['username']);
-      // Set user_status
+      // Set user status.
       $this->user_status = $this->user->check_status_by_username($this->session->userdata['username']);
     }
   }
@@ -101,10 +91,13 @@ class Product_migration_controller extends MY_Controller {
             $connection = $this->api->connect($setting_data->magento_admin, $setting_data->magento_admin_password);
 
             // Starting category migration.
+            // Creating "..._product_category_mapping" table name dynamically, specific to current user.
             $product_category_mapping_table_name = $this->session->userdata['username'].'_'.$setting_data->id.'_product_category_mapping';
+            // Creating "..._product_category_mapping" table dynamically, specific to current user.
             $this->Product_migration_model->create_product_category_mapping_table($product_category_mapping_table_name);
-    			  $all_opencart_category_ids = $this->Product_migration_model->get_all_opencart_category_ids($this->opencart_db, $setting_data->opencart_dbprefix);
 
+            // Fetching all the OpenCart category details and then working on it.
+            $all_opencart_category_ids = $this->Product_migration_model->get_all_opencart_category_ids($this->opencart_db, $setting_data->opencart_dbprefix);
             foreach ($all_opencart_category_ids as $ocvalue) {
               $ocdata = array (
                           "opencart_category_id" => $ocvalue->opencart_category_id,
@@ -148,9 +141,15 @@ class Product_migration_controller extends MY_Controller {
 						  }
 						  $data['success']=$response;
 					  }
+
+            // If all the categories were migrated successfully, start migration all the OpenCart products.
             if ($response) {
+              // Creating "..._product_mapping" table name dynamically, specific to current user.
               $product_mapping_table_name = $this->session->userdata['username'].'_'.$setting_data->id.'_product_mapping';
+              // Creating "..._product_mapping" table dynamically, specific to current user.
               $this->Product_migration_model->create_product_mapping_table($product_mapping_table_name);
+
+              // Fetching all the OpenCart product details and then working on it.
               $all_opencart_product_details = $this->Product_migration_model->get_all_opencart_product_details($this->opencart_db, $setting_data->opencart_dbprefix);
               foreach ($all_opencart_product_details as $row) {
                 $opencart_product_id = $row['product_id'];
@@ -204,24 +203,23 @@ class Product_migration_controller extends MY_Controller {
 
                 $this->Product_migration_model->update_product_mapping_table($product_mapping_table_name, $magento_product_id, $opencart_product_id);
 
+                // Fetching all the OpenCart product image details and then working on it.
                 $image_path = $this->Product_migration_model->get_opencart_product_image_path($this->opencart_db, $setting_data->opencart_dbprefix, $opencart_product_id);
-
-                $opencart_website_url_string = $setting_data->opencart_websiteurl;
-                $image_url = $opencart_website_url_string."image"."/".$image_path;
-                $starting_point = strlen($opencart_website_url_string)+19;
+                $image_url = $setting_data->opencart_websiteurl."image"."/".$image_path;
+                $starting_point = strlen($setting_data->opencart_websiteurl)+19;
                 $ending_point = strlen($image_url)-$starting_point;
                 $product_image_name = substr("$image_url", $starting_point, $ending_point);
 
-                $dataaa = array(
+                $dataa = array(
                   "entry" => array(
                     'media_type'=> 'image',
                     'label'     => 'Image',
                     'position'  => 1,
                     'disabled'  => FALSE,
                     'types'     => array(
-                      'image',
-                      'small_image',
-                      'thumbnail'
+                        'image',
+                        'small_image',
+                        'thumbnail'
                     ),
                     'content'   => array(
                       'base64_encoded_data'=> base64_encode(file_get_contents($image_url)),
@@ -230,16 +228,16 @@ class Product_migration_controller extends MY_Controller {
                     )
                   )
                 );
-                $response = $this->api->post("products/"."$magento_product_id"."/media", $dataaa);
+                $response = $this->api->post("products/"."$opencart_product_id"."/media", $dataa);
               }
             } else {
-              //
+              // Categories were not migrated successfully, do nothing.
             }
 					}
 				}
-	  }
-	  $this->body = 'user/product_migration_view_two';
-	  $this->content = ['data' => $data];
-	  $this->user_layout();
     }
+    $this->body = 'user/product_migration_view_two';
+    $this->content = ['data' => $data];
+    $this->user_layout();
+  }
 }
