@@ -122,9 +122,12 @@ class Product_migration_controller extends MY_Controller {
     							)
   						  );
   						  $response = $this->api->post("categories", $dataa);
-                $magento_category_id = $response->id;
+                if ($response) {
+                  $magento_category_id = $response->id;
+    						  $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $magento_category_id, $magento_category_parent, $opencart_category_id);
+                } else {
 
-  						  $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $magento_category_id, $magento_category_parent, $opencart_category_id);
+                }
   						} else {
   						  $magento_category_parent = $this->Product_migration_model->get_new_product_category_id($product_category_mapping_table_name, $opencart_category_parent);
                 $dataa=array(
