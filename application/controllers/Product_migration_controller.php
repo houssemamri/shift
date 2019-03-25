@@ -135,72 +135,73 @@ class Product_migration_controller extends MY_Controller {
   							  )
 						    );
                 $response = $this->api->post("categories", $dataa);
-                $magento_category_id = $response->id;
+                if ($response) {
+                  $magento_category_id = $response->id;
+  						    $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $magento_category_id, $magento_category_parent, $opencart_category_id);
+                } else {
 
-						    $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $magento_category_id, $magento_category_parent, $opencart_category_id);
+                }
 						  }
 						  $data['success']=$response;
 					  }
 
-            // If all the categories were migrated successfully, start migration all the OpenCart products.
-            if ($response) {
-              // Creating "..._product_mapping" table name dynamically, specific to current user.
-              $product_mapping_table_name = $this->session->userdata['username'].'_'.$setting_data->id.'_product_mapping';
-              // Creating "..._product_mapping" table dynamically, specific to current user.
-              $this->Product_migration_model->create_product_mapping_table($product_mapping_table_name);
+            // Creating "..._product_mapping" table name dynamically, specific to current user.
+            $product_mapping_table_name = $this->session->userdata['username'].'_'.$setting_data->id.'_product_mapping';
+            // Creating "..._product_mapping" table dynamically, specific to current user.
+            $this->Product_migration_model->create_product_mapping_table($product_mapping_table_name);
 
-              // Fetching all the OpenCart product details and then working on it.
-              $all_opencart_product_details = $this->Product_migration_model->get_all_opencart_product_details($this->opencart_db, $setting_data->opencart_dbprefix);
-              foreach ($all_opencart_product_details as $row) {
-                $opencart_product_id = $row['product_id'];
-                $magento_product_name = $row['name'];
-                $magento_product_description = $row['description'];
-                $magento_product_quantity = $row['quantity'];
-                $magento_product_price = $row['price'];
+            // Fetching all the OpenCart product details and then working on it.
+            $all_opencart_product_details = $this->Product_migration_model->get_all_opencart_product_details($this->opencart_db, $setting_data->opencart_dbprefix);
+            foreach ($all_opencart_product_details as $row) {
+              $opencart_product_id = $row['product_id'];
+              $magento_product_name = $row['name'];
+              $magento_product_description = $row['description'];
+              $magento_product_quantity = $row['quantity'];
+              $magento_product_price = $row['price'];
 
-                $magento_category_id_of_product = array();
-                $opencart_category_id_of_product = $this->Product_migration_model->get_opencart_category_id_of_product($this->opencart_db, $setting_data->opencart_dbprefix, $opencart_product_id);
-                foreach ($opencart_category_id_of_product as $row) {
-                  $value = $this->Product_migration_model->get_magento_category_id_of_product($product_category_mapping_table_name, $row['category_id']);
-                  array_push($magento_category_id_of_product, $value);
-                }
+              $magento_category_id_of_product = array();
+              $opencart_category_id_of_product = $this->Product_migration_model->get_opencart_category_id_of_product($this->opencart_db, $setting_data->opencart_dbprefix, $opencart_product_id);
+              foreach ($opencart_category_id_of_product as $row) {
+                $value = $this->Product_migration_model->get_magento_category_id_of_product($product_category_mapping_table_name, $row['category_id']);
+                array_push($magento_category_id_of_product, $value);
+              }
 
-                if ($magento_product_quantity>=1) {
-                  $magento_product_in_stock = TRUE;
-                } else {
-                  $magento_product_in_stock = FALSE;
-                }
+              if ($magento_product_quantity>=1) {
+                $magento_product_in_stock = TRUE;
+              } else {
+                $magento_product_in_stock = FALSE;
+              }
 
-                $dataa = array(
-                  "product" => array(
-                    "sku"               => $opencart_product_id,
-                    'name'              => $magento_product_name,
-                    'visibility'        => 4,
-                    'type_id'           => 'simple',
-                    'price'             => $magento_product_price,
-                    'status'            => 1,
-                    'attribute_set_id'  => 4,
-                    'weight'            => 1,
-                    'custom_attributes' => array(
-                      array( 'attribute_code' => 'category_ids',      'value' => $magento_category_id_of_product ),
-                      array( 'attribute_code' => 'description',       'value' => $magento_product_description ),
-                      array( 'attribute_code' => 'short_description', 'value' => $magento_product_description )
+              $dataa = array(
+                "product" => array(
+                  "sku"               => $opencart_product_id,
+                  'name'              => $magento_product_name,
+                  'visibility'        => 4,
+                  'type_id'           => 'simple',
+                  'price'             => $magento_product_price,
+                  'status'            => 1,
+                  'attribute_set_id'  => 4,
+                  'weight'            => 1,
+                  'custom_attributes' => array(
+                    array( 'attribute_code' => 'category_ids',      'value' => $magento_category_id_of_product ),
+                    array( 'attribute_code' => 'description',       'value' => $magento_product_description ),
+                    array( 'attribute_code' => 'short_description', 'value' => $magento_product_description )
+                  ),
+                  'extension_attributes'    => array(
+                    'website_ids'           => array(
+                      1
                     ),
-                    'extension_attributes'    => array(
-                      'website_ids'           => array(
-                        1
-                      ),
-                      'stock_item'            => array(
-                        'qty'                 => $magento_product_quantity,
-                        'is_in_stock'         => $magento_product_in_stock
-                      )
+                    'stock_item'            => array(
+                      'qty'                 => $magento_product_quantity,
+                      'is_in_stock'         => $magento_product_in_stock
                     )
                   )
-                );
+                )
+              );
 
-                $response = $this->api->post("products", $dataa);
+              $response = $this->api->post("products", $dataa);
+              if ($response) {
                 $magento_product_id = $response->id;
-
                 $this->Product_migration_model->update_product_mapping_table($product_mapping_table_name, $magento_product_id, $opencart_product_id);
 
                 // Fetching all the OpenCart product image details and then working on it.
@@ -229,9 +230,9 @@ class Product_migration_controller extends MY_Controller {
                   )
                 );
                 $response = $this->api->post("products/"."$opencart_product_id"."/media", $dataa);
+              } else {
+
               }
-            } else {
-              // Categories were not migrated successfully, do nothing.
             }
 					}
 				}
