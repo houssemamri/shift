@@ -42,7 +42,7 @@ class Product_migration_model extends CI_MODEL {
 
     public function get_all_opencart_category_ids($opencart_db, $prefix){
         $query = $opencart_db->query("SELECT category_id AS opencart_category_id, parent_id AS opencart_category_parent
-                                     FROM '".$prefix."'category_description JOIN '".$prefix."'category USING (category_id)
+                                     FROM {$prefix}category_description JOIN {$prefix}category USING (category_id)
                                      ORDER BY opencart_category_parent ASC");
         return $query->result();
     }
@@ -62,7 +62,7 @@ class Product_migration_model extends CI_MODEL {
 
     public function get_all_opencart_category_details($opencart_db, $prefix){
       $query = $opencart_db->query("SELECT category_id, name, parent_id
-                            FROM '".$prefix."'category_description JOIN '".$prefix."'category USING (category_id)
+                            FROM {$prefix}category_description JOIN {$prefix}category USING (category_id)
                             ORDER BY parent_id ASC");
       return $query->result_array();
     }
@@ -99,7 +99,7 @@ class Product_migration_model extends CI_MODEL {
 
     public function get_all_opencart_product_details($opencart_db, $prefix) {
       $query = $opencart_db->query("SELECT product_id, name, description, quantity, price
-                                    FROM '".$prefix."'product_description JOIN '".$prefix."'product USING (product_id)");
+                                    FROM {$prefix}product_description JOIN {$prefix}product USING (product_id)");
       return $query->result_array();
     }
 
@@ -107,7 +107,7 @@ class Product_migration_model extends CI_MODEL {
 
     public function get_opencart_category_id_of_product($opencart_db, $prefix, $oc_product_id) {
       $query = $opencart_db->query("SELECT category_id
-                                    FROM '".$prefix."'product_to_category
+                                    FROM {$prefix}product_to_category
                                     WHERE product_id='".$oc_product_id."'");
       return $query->result_array();
     }
@@ -133,7 +133,7 @@ class Product_migration_model extends CI_MODEL {
 
     public function get_opencart_product_image_path($opencart_db, $prefix, $oc_product_id) {
       $query = $opencart_db->query("SELECT image
-                                    FROM '".$prefix."'product
+                                    FROM {$prefix}product
                                     WHERE product_id='".$oc_product_id."'");
       $query_result = $query->row();
       return $query_result->image;
