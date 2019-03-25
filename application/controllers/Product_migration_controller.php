@@ -173,7 +173,7 @@ class Product_migration_controller extends MY_Controller {
                 array_push($magento_category_id_of_product, $value);
               }
             }
-
+            
             if (!empty($magento_category_id_of_product)) {
               // Successfully retrieved corresponding Magento product id of the Opencart id.
               if ($magento_product_quantity>=1) {

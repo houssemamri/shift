@@ -102,7 +102,11 @@ class Product_migration_model extends CI_MODEL {
                                 WHERE opencart_category_id='".$oc_category_id."'");
       if ($query == TRUE) {
         $query_result = $query->row();
-        return $query_result->magento_category_id;
+        if (!empty($query_result)) {
+          return $query_result->magento_category_id;
+        } else {
+          return FALSE;
+        }
       } else {
         return FALSE;
       }
