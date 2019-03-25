@@ -122,7 +122,7 @@ class Product_migration_controller extends MY_Controller {
     							)
   						  );
   						  $response = $this->api->post("categories", $dataa);
-                if ($response) {
+                if (!empty($response)) {
                   $magento_category_id = $response->id;
     						  $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $magento_category_id, $magento_category_parent, $opencart_category_id);
                 } else {
@@ -138,7 +138,7 @@ class Product_migration_controller extends MY_Controller {
   							  )
 						    );
                 $response = $this->api->post("categories", $dataa);
-                if ($response) {
+                if (!empty($response)) {
                   $magento_category_id = $response->id;
   						    $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $magento_category_id, $magento_category_parent, $opencart_category_id);
                 } else {
@@ -203,7 +203,7 @@ class Product_migration_controller extends MY_Controller {
               );
 
               $response = $this->api->post("products", $dataa);
-              if ($response) {
+              if (!empty($response)) {
                 $magento_product_id = $response->id;
                 $this->Product_migration_model->update_product_mapping_table($product_mapping_table_name, $magento_product_id, $opencart_product_id);
 
@@ -233,6 +233,11 @@ class Product_migration_controller extends MY_Controller {
                   )
                 );
                 $response = $this->api->post("products/"."$opencart_product_id"."/media", $dataa);
+                if (!empty($response)) {
+
+                } else {
+
+                }
               } else {
 
               }
