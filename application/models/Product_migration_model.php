@@ -19,11 +19,11 @@ class Product_migration_model extends CI_MODEL {
 
 
 
-    public function get_all_user_website_details($opencart_website_id, $userid) {
+    public function get_all_user_website_details($oc_website_id, $user_session_id) {
       $query = $this->db->query("SELECT *
                                 FROM `settings`
-                                WHERE id='".$opencart_website_id."'
-                                AND user_id='".$userid."'");
+                                WHERE id='".$oc_website_id."'
+                                AND user_id='".$user_session_id."'");
       return $query->row();
     }
 
@@ -40,26 +40,6 @@ class Product_migration_model extends CI_MODEL {
 
 
 
-    public function get_all_opencart_category_ids($opencart_db, $prefix){
-        $query = $opencart_db->query("SELECT category_id AS opencart_category_id, parent_id AS opencart_category_parent
-                                     FROM `{$prefix}category_description` JOIN `{$prefix}category` USING (category_id)
-                                     ORDER BY opencart_category_parent ASC");
-        return $query->result();
-    }
-
-
-
-    public function insert_all_opencart_id_into_mapping_table($table_name, $data) {
-      $this->db->insert($table_name, $data);
-      if ($this->db->affected_rows()) {
-        return $this->db->insert_id();
-      } else {
-        return false;
-      }
-    }
-
-
-
     public function get_all_opencart_category_details($opencart_db, $prefix){
       $query = $opencart_db->query("SELECT category_id, name, parent_id
                             FROM `{$prefix}category_description` JOIN `{$prefix}category` USING (category_id)
@@ -69,11 +49,9 @@ class Product_migration_model extends CI_MODEL {
 
 
 
-    public function update_product_category_mapping_table($table_name, $mg_category_id, $mg_category_parent, $oc_category_id){
-      $query = $this->db->query("UPDATE `".$table_name."`
-                                SET magento_category_id='".$mg_category_id."',
-                                    magento_category_parent='".$mg_category_parent."'
-                                WHERE opencart_category_id='".$oc_category_id."'");
+    public function update_product_category_mapping_table($table_name, $oc_category_id, $oc_category_parent, $mg_category_id, $mg_category_parent){
+      $query = $this->db->query("INSERT INTO `".$table_name."` (opencart_category_id, opencart_category_parent, magento_category_id, magento_category_parent)
+                                VALUES ('".$oc_category_id."', '".$oc_category_parent."', '".$mg_category_id."', '".$mg_category_parent."')");
     }
 
 
@@ -82,8 +60,12 @@ class Product_migration_model extends CI_MODEL {
       $query = $this->db->query("SELECT magento_category_id
                                 FROM `".$table_name."`
                                 WHERE opencart_category_id='".$oc_category_parent."'");
-      $query_result = $query->row();
-      return $query_result->magento_category_id;
+      if ($query == TRUE) {
+        $query_result = $query->row();
+        return $query_result->magento_category_id;
+      } else {
+        return FALSE;
+      }
     }
 
 
@@ -118,8 +100,12 @@ class Product_migration_model extends CI_MODEL {
       $query = $this->db->query("SELECT magento_category_id
                                 FROM `".$table_name."`
                                 WHERE opencart_category_id='".$oc_category_id."'");
-      $query_result = $query->row();
-      return $query_result->magento_category_id;
+      if ($query == TRUE) {
+        $query_result = $query->row();
+        return $query_result->magento_category_id;
+      } else {
+        return FALSE;
+      }
     }
 
 
