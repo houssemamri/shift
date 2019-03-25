@@ -30,7 +30,7 @@ class Product_migration_model extends CI_MODEL {
 
 
     public function create_product_category_mapping_table($table_name){
-      $query = $this->db->query("CREATE TABLE IF NOT EXISTS '".$table_name."' (
+      $query = $this->db->query("CREATE TABLE IF NOT EXISTS `".$table_name."` (
                                 opencart_category_id VARCHAR(250),
                                 opencart_category_parent VARCHAR(250),
                                 magento_category_id VARCHAR(250),
@@ -89,7 +89,7 @@ class Product_migration_model extends CI_MODEL {
 
 
     public function create_product_mapping_table($table_name) {
-      $query = $this->db->query("CREATE TABLE IF NOT EXISTS '".$table_name."' (
+      $query = $this->db->query("CREATE TABLE IF NOT EXISTS `".$table_name."` (
                                 opencart_product_id VARCHAR(250),
                                 magento_product_id VARCHAR(250)
                                 )");
