@@ -93,7 +93,7 @@ class Product_migration_controller extends MY_Controller {
           // Starting product category migration.
           // Creating "..._product_category_mapping" table name dynamically, specific to current user.
           $product_category_mapping_table_name = $this->session->userdata['username'].'_'.$setting_data->id.'_product_category_mapping';
-          // Creating "..._product_category_mapping" table dynamically, specific to current user.
+          // Creating "..._product_category_mapping" table dynamically, specific to current user, only if it doesn't already exist.
           $this->Product_migration_model->create_product_category_mapping_table($product_category_mapping_table_name);
 
           // Fetching all the OpenCart category details and then working on it.
@@ -115,12 +115,14 @@ class Product_migration_controller extends MY_Controller {
 						  );
 						  $response = $this->api->post("categories", $dataa);
               // Checking if caltegory transfer was successful or not.
-              if (property_exists($response, 'message')) {
-                // Error occurred while transferring the category.
-              } else {
+              if (property_exists($response, 'id')) {
                 // Category transfer successful.
                 $magento_category_id = $response->id;
 						    $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $opencart_category_id, $opencart_category_parent, $magento_category_id, $magento_category_parent, $opencart_category_id);
+              } elseif (property_exists($response, 'message')) {
+                // Error occurred while transferring the category.
+              } else {
+                // Error occurred while transferring the category.
               }
 						} else {
 						  $magento_category_parent = $this->Product_migration_model->get_new_product_category_id($product_category_mapping_table_name, $opencart_category_parent);
@@ -136,12 +138,14 @@ class Product_migration_controller extends MY_Controller {
   							  )
 						    );
                 $response = $this->api->post("categories", $dataa);
-                if (property_exists($response, 'message')) {
-                  // Error occurred while transferring the category.
-                } else {
+                if (property_exists($response, 'id')) {
                   // Category transfer successful.
                   $magento_category_id = $response->id;
   						    $this->Product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $opencart_category_id, $opencart_category_parent, $magento_category_id, $magento_category_parent, $opencart_category_id);
+                } elseif (property_exists($response, 'message')) {
+                  // Error occurred while transferring the category.
+                } else {
+                  // Error occurred while transferring the category.
                 }
               }
 					  }
@@ -167,16 +171,16 @@ class Product_migration_controller extends MY_Controller {
             foreach ($opencart_category_id_of_product as $row) {
               $value = $this->Product_migration_model->get_magento_category_id_of_product($product_category_mapping_table_name, $row['category_id']);
               if ($value == FALSE) {
-                // Error retrieving corresponding Magento product id of the Opencart id.
+                // Error retrieving corresponding Magento category id of the Opencart id.
               } else {
-                // Successfully retrieved corresponding Magento product id of the Opencart id.
+                // Successfully retrieved corresponding Magento category id of the Opencart id.
                 array_push($magento_category_id_of_product, $value);
               }
             }
-            
+
             if (!empty($magento_category_id_of_product)) {
-              // Successfully retrieved corresponding Magento product id of the Opencart id.
-              if ($magento_product_quantity>=1) {
+              // Successfully retrieved corresponding Magento category id of the Opencart id.
+              if ($magento_product_quantity >= 1) {
                 $magento_product_in_stock = TRUE;
               } else {
                 $magento_product_in_stock = FALSE;
@@ -208,17 +212,18 @@ class Product_migration_controller extends MY_Controller {
                   )
                 )
               );
-
               $response = $this->api->post("products", $dataa);
-              if (property_exists($response, 'message')) {
-                // Error occurred while transferring the product.
-              } else {
+              if (property_exists($response, 'id')) {
                 // Product transfer successful.
                 $magento_product_id = $response->id;
                 $this->Product_migration_model->update_product_mapping_table($product_mapping_table_name, $magento_product_id, $opencart_product_id);
+              } elseif (property_exists($response, 'message')) {
+                // Error occurred while transferring the product.
+              } else {
+                // Error occurred while transferring the product.
               }
             } else {
-              // Error retrieving corresponding Magento product id of the Opencart id.
+              // Error retrieving corresponding Magento category id of the Opencart id.
             }
           }
 				}
