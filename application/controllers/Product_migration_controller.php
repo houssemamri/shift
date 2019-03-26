@@ -108,7 +108,7 @@ class Product_migration_controller extends MY_Controller {
 
 						  $dataa=array(
   							"category" => array(
-  							  'name'              => $magento_category_name,
+  							  'name'              => addslashes($magento_category_name),
   							  'parent_id'         => $magento_category_parent,
   							  'is_active'         => TRUE
   							)
@@ -132,7 +132,7 @@ class Product_migration_controller extends MY_Controller {
                 // Successfully retrieved corresponding Magento category id of the Opencart id.
                 $dataa=array(
   							  "category" => array(
-  							  'name'              => $magento_category_name,
+  							  'name'              => addslashes($magento_category_name),
   							  'parent_id'         => $magento_category_parent,
   							  'is_active'         => TRUE
   							  )
@@ -171,8 +171,8 @@ class Product_migration_controller extends MY_Controller {
             foreach ($opencart_category_id_of_product as $row) {
               $value = $this->Product_migration_model->get_magento_category_id_of_product($product_category_mapping_table_name, $row['category_id']);
               if ($value == FALSE) {
-                log_message('info', 'Error transferring product due to not retrieving Magento category id 1: '.$opencart_product_id);
                 // Error retrieving corresponding Magento category id of the Opencart id.
+                // ************************************************************************************ Error transferring product due to not retrieving Magento category id 1
               } else {
                 // Successfully retrieved corresponding Magento category id of the Opencart id.
                 array_push($magento_category_id_of_product, $value);
@@ -189,8 +189,8 @@ class Product_migration_controller extends MY_Controller {
 
               $dataa = array(
                 "product" => array(
-                  "sku"               => $opencart_product_id,
-                  'name'              => $magento_product_name,
+                  "sku"               => "OPENCARTID-".$opencart_product_id,
+                  'name'              => addslashes($magento_product_name),
                   'visibility'        => 4,
                   'type_id'           => 'simple',
                   'price'             => $magento_product_price,
@@ -199,8 +199,8 @@ class Product_migration_controller extends MY_Controller {
                   'weight'            => 1,
                   'custom_attributes' => array(
                     array( 'attribute_code' => 'category_ids',      'value' => $magento_category_id_of_product ),
-                    array( 'attribute_code' => 'description',       'value' => $magento_product_description ),
-                    array( 'attribute_code' => 'short_description', 'value' => $magento_product_description )
+                    array( 'attribute_code' => 'description',       'value' => addslashes($magento_product_description) ),
+                    array( 'attribute_code' => 'short_description', 'value' => addslashes($magento_product_description) )
                   ),
                   'extension_attributes'    => array(
                     'website_ids'           => array(
@@ -215,20 +215,18 @@ class Product_migration_controller extends MY_Controller {
               );
               $response = $this->api->post("products", $dataa);
               if (property_exists($response, 'id')) {
-                log_message('info', 'Successfully transferred product: '.$opencart_product_id);
                 // Product transfer successful.
                 $magento_product_id = $response->id;
                 $this->Product_migration_model->update_product_mapping_table($product_mapping_table_name, $magento_product_id, $opencart_product_id);
               } elseif (property_exists($response, 'message')) {
-                log_message('info', 'Error transferring product during post 1: '.$opencart_product_id);
                 // Error occurred while transferring the product.
+                // ************************************************************************************ Error transferring product during post 1
               } else {
-                log_message('info', 'Error transferring product during post 2: '.$opencart_product_id);
                 // Error occurred while transferring the product.
               }
             } else {
-              log_message('info', 'Error transferring product due to not retrieving Magento category id 2: '.$opencart_product_id);
               // Error retrieving corresponding Magento category id of the Opencart id.
+              // ************************************************************************************** Error transferring product due to not retrieving Magento category id 2
             }
           }
 				}
