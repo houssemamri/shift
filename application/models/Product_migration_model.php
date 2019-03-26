@@ -11,7 +11,7 @@ class Product_migration_model extends CI_MODEL {
 
 
     public function get_all_user_websites($user_session_id) {
-      $query = $this->db->query("SELECT id,opencart_websiteurl, magento_websiteurl
+      $query = $this->db->query("SELECT id, opencart_websiteurl, magento_websiteurl
                                  FROM `settings`
                                  WHERE user_id='".$user_session_id."'");
       return $query->result();
@@ -32,7 +32,7 @@ class Product_migration_model extends CI_MODEL {
     // Starting product category migration.
     public function create_product_category_mapping_table($table_name){
       $query = $this->db->query("CREATE TABLE IF NOT EXISTS `".$table_name."` (
-                                 opencart_category_id VARCHAR(250),
+                                 opencart_category_id VARCHAR(250) PRIMARY KEY,
                                  opencart_category_parent VARCHAR(250),
                                  magento_category_id VARCHAR(250),
                                  magento_category_parent VARCHAR(250)
@@ -54,7 +54,11 @@ class Product_migration_model extends CI_MODEL {
 
     public function update_product_category_mapping_table($table_name, $oc_category_id, $oc_category_parent, $mg_category_id, $mg_category_parent){
       $query = $this->db->query("INSERT INTO `".$table_name."` (opencart_category_id, opencart_category_parent, magento_category_id, magento_category_parent)
-                                 VALUES ('".$oc_category_id."', '".$oc_category_parent."', '".$mg_category_id."', '".$mg_category_parent."')");
+                                 VALUES ('".$oc_category_id."', '".$oc_category_parent."', '".$mg_category_id."', '".$mg_category_parent."')
+                                 ON DUPLICATE KEY UPDATE
+                                 opencart_category_parent='".$oc_category_parent."',
+                                 magento_category_id='".$mg_category_id."',
+                                 magento_category_parent='".$mg_category_parent."'");
     }
 
 
@@ -76,7 +80,7 @@ class Product_migration_model extends CI_MODEL {
     // Starting product migration.
     public function create_product_mapping_table($table_name) {
       $query = $this->db->query("CREATE TABLE IF NOT EXISTS `".$table_name."` (
-                                 opencart_product_id VARCHAR(250),
+                                 opencart_product_id VARCHAR(250) PRIMARY KEY,
                                  magento_product_id VARCHAR(250)
                                  )");
     }
@@ -118,7 +122,9 @@ class Product_migration_model extends CI_MODEL {
 
     public function update_product_mapping_table($table_name, $mg_product_id, $oc_product_id) {
       $query = $this->db->query("INSERT INTO `".$table_name."` (opencart_product_id, magento_product_id)
-                                 VALUES ('".$oc_product_id."', '".$mg_product_id."')");
+                                 VALUES ('".$oc_product_id."', '".$mg_product_id."')
+                                 ON DUPLICATE KEY UPDATE
+                                 magento_product_id='".$mg_product_id."'");
     }
 
 
