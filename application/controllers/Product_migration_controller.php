@@ -203,9 +203,9 @@ class Product_migration_controller extends MY_Controller {
                     array( 'attribute_code' => 'short_description', 'value' => addslashes($magento_product_description) )
                   ),
                   'extension_attributes'    => array(
-                    'website_ids'           => array(
-                      1
-                    ),
+                    //'website_ids'           => array(
+                      //1
+                    //),
                     'stock_item'            => array(
                       'qty'                 => $magento_product_quantity,
                       'is_in_stock'         => $magento_product_in_stock
@@ -213,9 +213,9 @@ class Product_migration_controller extends MY_Controller {
                   )
                 )
               );
-              $this->load->view('test');
-              print_r($dataaa);
-              exit;
+              //$this->load->view('test');
+              //print_r($dataaa);
+              //exit;
               $response = $this->api->post("products", $dataaa);
               if (property_exists($response, 'id')) {
                 // Product transfer successful.
