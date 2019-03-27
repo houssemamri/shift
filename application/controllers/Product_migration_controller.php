@@ -187,7 +187,7 @@ class Product_migration_controller extends MY_Controller {
                 $magento_product_in_stock = FALSE;
               }
 
-              $dataa = array(
+              $dataaa = array(
                 "product" => array(
                   "sku"               => "OPENCARTID-".$opencart_product_id,
                   'name'              => addslashes($magento_product_name),
@@ -213,10 +213,7 @@ class Product_migration_controller extends MY_Controller {
                   )
                 )
               );
-              $this->load->view('test');
-              print_r($dataa);
-              exit;
-              $response = $this->api->post("products", $dataa);
+              $response = $this->api->post("products", $dataaa);
               if (property_exists($response, 'id')) {
                 // Product transfer successful.
                 $magento_product_id = $response->id;
