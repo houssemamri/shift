@@ -213,6 +213,9 @@ class Product_migration_controller extends MY_Controller {
                   )
                 )
               );
+              $this->load->view('test');
+              print_r($dataaa);
+              exit;
               $response = $this->api->post("products", $dataaa);
               if (property_exists($response, 'id')) {
                 // Product transfer successful.
