@@ -213,7 +213,7 @@ class Product_migration_controller extends MY_Controller {
                   )
                 )
               );
-              $this->load->view('user/product_migration_view_two');
+              $this->load->view('test');
               print_r($dataa);
               exit;
               $response = $this->api->post("products", $dataa);
