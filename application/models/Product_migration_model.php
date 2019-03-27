@@ -134,6 +134,10 @@ class Product_migration_model extends CI_MODEL {
                                     FROM `{$prefix}product`
                                     WHERE product_id='".$oc_product_id."'");
       $query_result = $query->row();
-      return $query_result->image;
+      if (empty($query_result->image)) {
+        return FALSE;
+      } else {
+        return $query_result->image;
+      }
     }
 }
