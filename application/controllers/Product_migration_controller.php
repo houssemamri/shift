@@ -105,7 +105,7 @@ class Product_migration_controller extends MY_Controller {
 
 						 if ($opencart_category_parent == 0) {
 						   $magento_category_parent = 2;
-      				 $dataa=array(
+      				 $dataa = array(
       				   "category" => array(
       				     'name'              => addslashes($magento_category_name),
       						 'parent_id'         => $magento_category_parent,
@@ -271,7 +271,7 @@ class Product_migration_controller extends MY_Controller {
 			 }
      }
     $this->body = 'user/product_migration_view_two';
-    $this->content = ['data' => $data];
+    //$this->content = ['data' => $data];
     $this->user_layout();
   }
 }

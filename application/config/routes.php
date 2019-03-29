@@ -221,8 +221,8 @@ $route['user/do-product-migration'] = 'Product_migration_controller/get_user_web
 
 
 /* EDIT */
-$route['user/Customer_migration_controller/get_customer_migration_view_one'] = 'Customer_migration_controller/get_customer_migration_view_one';
-$route['user/Customer_migration_controller/get_user_website_selection'] = 'Customer_migration_controller/get_user_website_selection';
+$route['user/customer-migration'] = 'Customer_migration_controller/get_customer_migration_view';
+$route['user/do-customer-migration'] = 'Customer_migration_controller/get_user_website_selection';
 /* EDIT */
 $route['user/magento-website-data'] = 'Product_migration_controller/magento_website_data';
 /* End of file routes.php */

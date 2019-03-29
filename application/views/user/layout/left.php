@@ -89,13 +89,13 @@
                 </li>
                 <li>
                     <!-- EDIT -->
-                    <a href="<?php echo site_url('user/Customer_migration_controller/get_customer_migration_view_one') ?>" class="new-post-button">
+                    <a href="<?php echo site_url('user/customer-migration') ?>" class="new-post-button">
                     <!-- EDIT -->
                         Customer Migration
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo site_url() ?>" class="new-post-button">
+                    <a href="<?php echo site_url('user/order-migration') ?>" class="new-post-button">
                         Order Migration
                     </a>
                 </li>

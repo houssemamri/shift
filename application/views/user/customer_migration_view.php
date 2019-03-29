@@ -9,7 +9,7 @@
                                 <h1>Select Migration Services</h1>
                             </div>
                         </div>
-						<?php echo form_open('user/do-product-migration'); ?>
+						<?php echo form_open('user/do-customer-migration'); ?>
 						<div class="row">
                             <div class="col-lg-6">
 								<img src="<?= base_url(); ?>assets/img/opencart.png">
@@ -34,7 +34,7 @@
 							</div>
 							<div class="col-lg-12">
 								<div class="form-group" style="text-align:;">
-									<button type="submit" class="btn btn-labeled btn-primary">Start Product Migration</button>
+									<button type="submit" class="btn btn-labeled btn-primary">Start Customer Migration</button>
 									<br/>
 								</div>
 							</div>
