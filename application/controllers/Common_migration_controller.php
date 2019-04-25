@@ -420,11 +420,12 @@ class Common_migration_controller extends MY_Controller {
                   ),
                   'items' => array(
                     'product_id' => $magento_product_id,
-                    'sku' => addslashes($magento_product_sku)
+                    'sku' => $magento_product_sku
                   ),
                   'payment' => array(
                     'method' => addslashes($magento_payment_method)
-                  )
+                  ),
+                  'store_id' => 1
                 )
               );
 
