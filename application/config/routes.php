@@ -222,6 +222,5 @@ $route['user/start-product-migration'] = 'Common_migration_controller/start_prod
 $route['user/start-customer-migration'] = 'Common_migration_controller/start_customer_migration';
 // OpenCart to Magento migration - order migration.
 $route['user/start-order-migration'] = 'Common_migration_controller/start_order_migration';
-
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

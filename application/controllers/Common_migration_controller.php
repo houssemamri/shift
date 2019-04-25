@@ -9,7 +9,7 @@ class Common_migration_controller extends MY_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->model(array('user', 'Opencart_to_magento_common_migration_model', 'Opencart_to_magento_product_migration_model', 'Opencart_to_magento_customer_migration_model', 'Opencart_to_magento_order_migration_model'));
-    $this->load->helper(array('main_helper', 'user_helper', 'db_dynamic_helper'));
+    $this->load->helper(array('main_helper', 'user_helper', 'database_switch_helper'));
 
     // Check if session username exists.
     if (isset($this->session->userdata['username'])) {
@@ -38,7 +38,7 @@ class Common_migration_controller extends MY_Controller {
 
 
 
-  // Get corresponding Magento website URL after OpenCart URL selection.
+  // Get corresponding Magento website URL after OpenCart website URL selection.
   public function get_magento_website_url(){
     $this->check_session($this->user_role, 0);
 
@@ -65,6 +65,7 @@ class Common_migration_controller extends MY_Controller {
 
     $connections = $this->create_database_and_api_connections($this->session->userdata['all_user_website_details']);
 
+    // Start product category migration.
     // Create "..._product_category_mapping" table, specific to the current user, if it does not already exist.
     $product_category_mapping_table_name = $this->session->userdata['username'].'_'.$this->session->userdata['all_user_website_details']->id.'_product_category_mapping';
     $this->Opencart_to_magento_product_migration_model->create_product_category_mapping_table($product_category_mapping_table_name);
@@ -151,8 +152,9 @@ class Common_migration_controller extends MY_Controller {
       $magento_product_description = $row['description'];
       $magento_product_quantity = $row['quantity'];
       $magento_product_price = $row['price'];
-      $magento_category_id_of_product = array();
+      $magento_store_id = $this->session->userdata['all_user_website_details']->magento_store_id;
       $opencart_category_id_of_product = $this->Opencart_to_magento_product_migration_model->get_opencart_category_id_of_product($connections['opencart_database'], $this->session->userdata['all_user_website_details']->opencart_database_prefix, $opencart_product_id);
+      $magento_category_id_of_product = array();
       foreach ($opencart_category_id_of_product as $row) {
         $insert_query = $this->Opencart_to_magento_product_migration_model->get_magento_category_id_of_product($product_category_mapping_table_name, $row['category_id']);
         if($insert_query->num_rows() == 1) {
@@ -188,7 +190,7 @@ class Common_migration_controller extends MY_Controller {
             ),
             'extension_attributes'    => array(
               'website_ids'           => array(
-                1
+                $magento_store_id
               ),
               'stock_item'            => array(
                 'qty'                 => $magento_product_quantity,
@@ -203,8 +205,6 @@ class Common_migration_controller extends MY_Controller {
           // Product migration successful.
           $magento_product_id = $response->id;
           $this->Opencart_to_magento_product_migration_model->update_product_mapping_table($product_mapping_table_name, $magento_product_id, $opencart_product_id);
-          $dataaa = ['item' => 'product', 'migration_status' => 'successful', 'item_name' => addslashes($magento_category_name)];
-          echo json_encode($dataaa);
 
           // Start product image migration.
           $opencart_product_image_path_query = $this->Opencart_to_magento_product_migration_model->get_opencart_product_image_path($connections['opencart_database'], $this->session->userdata['all_user_website_details']->opencart_database_prefix, $opencart_product_id);
@@ -251,18 +251,12 @@ class Common_migration_controller extends MY_Controller {
             // Retrieval of product image path failed.
           }
         } elseif (property_exists($response, 'message')) {
-          $dataaa = ['item' => 'product', 'migration_status' => 'failed', 'item_name' => addslashes($magento_category_name)];
-          echo json_encode($dataaa);
           // Product migration failed.
         } else {
-          $dataaa = ['item' => 'product', 'migration_status' => 'failed', 'item_name' => addslashes($magento_category_name)];
-          echo json_encode($dataaa);
           // Product migration failed.
         }
       } else {
         // Retrieval of corresponding Magento category id of Opencart category id failed.
-        $dataaa = ['item' => 'product', 'migration_status' => 'failed', 'item_name' => addslashes($magento_category_name)];
-        echo json_encode($dataaa);
       }
     }
   }
@@ -277,6 +271,7 @@ class Common_migration_controller extends MY_Controller {
 
     $connections = $this->create_database_and_api_connections($this->session->userdata['all_user_website_details']);
 
+    // Starting customer group migration.
     // Create "..._customer_group_mapping" table, specific to the current user, if it does not already exist.
     $customer_group_mapping_table_name = $this->session->userdata['username'].'_'.$this->session->userdata['all_user_website_details']->id.'_customer_group_mapping';
     $this->Opencart_to_magento_customer_migration_model->create_customer_group_mapping_table($customer_group_mapping_table_name);
@@ -326,11 +321,11 @@ class Common_migration_controller extends MY_Controller {
       } else {
         $dataa = array(
           "customer" => array(
-            'group_id'          => $magento_customer_group_id,
             'default_billing'   => addslashes($magento_customer_address_1)." ".addslashes($magento_customer_address_2)." ".addslashes($magento_customer_address_city),
             'default_shipping'  => addslashes($magento_customer_address_1)." ".addslashes($magento_customer_address_2)." ".addslashes($magento_customer_address_city),
             'email'             => $magento_customer_email,
             'firstname'         => addslashes($magento_customer_firstname),
+            'group_id'          => $magento_customer_group_id,
             'lastname'          => addslashes($magento_customer_lastname)
           )
         );
@@ -363,6 +358,7 @@ class Common_migration_controller extends MY_Controller {
     $customer_group_mapping_table_name = $this->session->userdata['username'].'_'.$this->session->userdata['all_user_website_details']->id.'_customer_group_mapping';
     $customer_mapping_table_name = $this->session->userdata['username'].'_'.$this->session->userdata['all_user_website_details']->id.'_customer_mapping';
 
+    // Fetching all the OpenCart order details and then working on it.
     $all_opencart_order_details = $this->Opencart_to_magento_order_migration_model->get_all_opencart_order_details($connections['opencart_database'], $this->session->userdata['all_user_website_details']->opencart_database_prefix);
     foreach ($all_opencart_order_details as $row) {
       $opencart_order_id = $row['order_id'];
@@ -379,6 +375,7 @@ class Common_migration_controller extends MY_Controller {
       $magento_payment_method = $row['payment_method'];
       $magento_payment_address_telephone = $row['telephone'];
       $magento_order_total = $row['total'];
+      $magento_store_id = $this->session->userdata['all_user_website_details']->magento_store_id;
       $opencart_product_id_query_result = $this->Opencart_to_magento_order_migration_model->get_product_id_of_order($connections['opencart_database'], $this->session->userdata['all_user_website_details']->opencart_database_prefix, $opencart_order_id);
       foreach ($opencart_product_id_query_result as $roww) {
         $magento_product_id_query = $this->Opencart_to_magento_order_migration_model->get_magento_product_id_of_product($product_mapping_table_name, $roww['product_id']);
@@ -419,13 +416,18 @@ class Common_migration_controller extends MY_Controller {
                     'email' => $magento_customer_email
                   ),
                   'items' => array(
-                    'product_id' => $magento_product_id,
-                    'sku' => $magento_product_sku
+                    [
+                      'product_id' => $magento_product_id,
+                      'sku' => $magento_product_sku
+                    ], [
+                      'product_id' => $magento_product_id,
+                      'sku' => $magento_product_sku
+                    ]
                   ),
                   'payment' => array(
                     'method' => addslashes($magento_payment_method)
                   ),
-                  'store_id' => 1
+                  'store_id' => $magento_store_id
                 )
               );
 
@@ -457,7 +459,7 @@ class Common_migration_controller extends MY_Controller {
   // Start database and API connections.
   public function  create_database_and_api_connections($all_user_selected_website_details) {
     // Create an OpenCart database connection.
-    $opencart_database_configuration = switch_db_dynamic($all_user_selected_website_details->opencart_database_host, $all_user_selected_website_details->opencart_database_username, $all_user_selected_website_details->opencart_database_password, $all_user_selected_website_details->opencart_database_name);
+    $opencart_database_configuration = switch_database($all_user_selected_website_details->opencart_database_host, $all_user_selected_website_details->opencart_database_username, $all_user_selected_website_details->opencart_database_password, $all_user_selected_website_details->opencart_database_name);
     $opencart_database = $this->load->database($opencart_database_configuration, TRUE);
     $connection = $opencart_database->initialize();
     if($connection) {
@@ -467,7 +469,7 @@ class Common_migration_controller extends MY_Controller {
     }
 
     // Create an Magento database connection.
-    $magento_database_configuration = switch_db_dynamic($all_user_selected_website_details->magento_database_host, $all_user_selected_website_details->magento_database_username, $all_user_selected_website_details->magento_database_password, $all_user_selected_website_details->magento_database_name);
+    $magento_database_configuration = switch_database($all_user_selected_website_details->magento_database_host, $all_user_selected_website_details->magento_database_username, $all_user_selected_website_details->magento_database_password, $all_user_selected_website_details->magento_database_name);
     $magento_database = $this->load->database($magento_database_configuration, TRUE);
     $connection = $magento_database->initialize();
     if($connection) {
