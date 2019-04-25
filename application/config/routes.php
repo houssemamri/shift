@@ -1,44 +1,44 @@
 <?php
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+exit('No direct script access allowed');
 /*
-  | -------------------------------------------------------------------------
-  | URI ROUTING
-  | -------------------------------------------------------------------------
-  | This file lets you re-map URI requests to specific controller functions.
-  |
-  | Typically there is a one-to-one relationship between a URL string
-  | and its corresponding controller class/method. The segments in a
-  | URL normally follow this pattern:
-  |
-  |	example.com/class/method/id/
-  |
-  | In some instances, however, you may want to remap this relationship
-  | so that a different class/function is called than the one
-  | corresponding to the URL.
-  |
-  | Please see the user guide for complete details:
-  |
-  |	http://codeigniter.com/user_guide/general/routing.html
-  |
-  | -------------------------------------------------------------------------
-  | RESERVED ROUTES
-  | -------------------------------------------------------------------------
-  |
-  | There area two reserved routes:
-  |
-  |	$route['default_controller'] = 'welcome';
-  |
-  | This route indicates which controller class should be loaded if the
-  | URI contains no data. In the above example, the 'welcome' class
-  | would be loaded.
-  |
-  |	$route['404_override'] = 'errors/page_missing';
-  |
-  | This route will tell the Router what URI segments to use if those provided
-  | in the URL cannot be matched to a valid route.
-  |
- */
+| -------------------------------------------------------------------------
+| URI ROUTING
+| -------------------------------------------------------------------------
+| This file lets you re-map URI requests to specific controller functions.
+|
+| Typically there is a one-to-one relationship between a URL string
+| and its corresponding controller class/method. The segments in a
+| URL normally follow this pattern:
+|
+|	example.com/class/method/id/
+|
+| In some instances, however, you may want to remap this relationship
+| so that a different class/function is called than the one
+| corresponding to the URL.
+|
+| Please see the user guide for complete details:
+|
+|	http://codeigniter.com/user_guide/general/routing.html
+|
+| -------------------------------------------------------------------------
+| RESERVED ROUTES
+| -------------------------------------------------------------------------
+|
+| There area two reserved routes:
+|
+|	$route['default_controller'] = 'welcome';
+|
+| This route indicates which controller class should be loaded if the
+| URI contains no data. In the above example, the 'welcome' class
+| would be loaded.
+|
+|	$route['404_override'] = 'errors/page_missing';
+|
+| This route will tell the Router what URI segments to use if those provided
+| in the URL cannot be matched to a valid route.
+|
+*/
 
 // Auth routes
 $route['default_controller'] = 'auth/index';
@@ -211,19 +211,17 @@ $route['user/search-accounts/(:any)/(:any)'] = 'userarea/search_accounts/$1/$2';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+// Common migration.
+$route['user/common-migration-view'] = 'Common_migration_controller/get_common_migration_view';
 
+// OpenCart to Magento migration - database and API connection.
+$route['user/get-magento-website'] = 'Common_migration_controller/get_magento_website_url';
+// OpenCart to Magento migration - product migration.
+$route['user/start-product-migration'] = 'Common_migration_controller/start_product_migration';
+// OpenCart to Magento migration - customer migration.
+$route['user/start-customer-migration'] = 'Common_migration_controller/start_customer_migration';
+// OpenCart to Magento migration - order migration.
+$route['user/start-order-migration'] = 'Common_migration_controller/start_order_migration';
 
-$route['user/product-migration'] = 'Product_migration_controller/get_product_migration_view_one';
-$route['user/do-product-migration'] = 'Product_migration_controller/get_user_website_selection';
-
-
-
-
-
-/* EDIT */
-$route['user/customer-migration'] = 'Customer_migration_controller/get_customer_migration_view';
-$route['user/do-customer-migration'] = 'Customer_migration_controller/get_user_website_selection';
-/* EDIT */
-$route['user/magento-website-data'] = 'Product_migration_controller/magento_website_data';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

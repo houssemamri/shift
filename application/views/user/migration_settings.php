@@ -2,7 +2,7 @@
     <div class="container-fluid users" style="padding-left:15px;">
         <div class="row">
             <div class="col-lg-12">
-                <div class="col-lg-6 fl">
+                <div class="col-lg-12 fl">
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="panel-heading"  style="width:100%;">
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 fr migration-details display-none">
+                <div class="col-lg-12 fr migration-details display-none">
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="panel-heading details">
