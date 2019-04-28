@@ -72,6 +72,7 @@ class Common_migration_controller extends MY_Controller {
 
     // Fetch all the OpenCart product category details and then work on it.
     $all_opencart_category_details = $this->Opencart_to_magento_product_migration_model->get_all_opencart_category_details($connections['opencart_database'], $this->session->userdata['all_user_website_details']->opencart_database_prefix);
+
     foreach ($all_opencart_category_details as $row) {
       $opencart_category_id = $row['category_id'];
       $magento_category_name = $row['name'];
@@ -92,16 +93,10 @@ class Common_migration_controller extends MY_Controller {
           // Category migration successful.
           $magento_category_id = $response->id;
           $this->Opencart_to_magento_product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $opencart_category_id, $opencart_category_parent, $magento_category_id, $magento_category_parent, $opencart_category_id);
-          $dataaa = ['item' => 'category', 'migration_status' => 'successful', 'item_name' => addslashes($magento_category_name)];
-          echo json_encode($dataaa);
         } elseif (property_exists($response, 'message')) {
           // Category migration failed.
-          $dataaa = ['item' => 'category', 'migration_status' => 'failed', 'item_name' => addslashes($magento_category_name)];
-          echo json_encode($dataaa);
         } else {
           // Category migration failed.
-          $dataaa = ['item' => 'category', 'migration_status' => 'successful', 'item_name' => addslashes($magento_category_name)];
-          echo json_encode($dataaa);
         }
       } else {
         $magento_category_parent_query = $this->Opencart_to_magento_product_migration_model->get_new_product_category_id($product_category_mapping_table_name, $opencart_category_parent);
@@ -122,16 +117,10 @@ class Common_migration_controller extends MY_Controller {
             // Category migration successful.
             $magento_category_id = $response->id;
             $this->Opencart_to_magento_product_migration_model->update_product_category_mapping_table($product_category_mapping_table_name, $opencart_category_id, $opencart_category_parent, $magento_category_id, $magento_category_parent, $opencart_category_id);
-            $dataaa = ['item' => 'category', 'migration_status' => 'successful', 'item_name' => addslashes($magento_category_name)];
-            echo json_encode($dataaa);
           } elseif (property_exists($response, 'message')) {
             // Category migration failed.
-            $dataaa = ['item' => 'category', 'migration_status' => 'failed', 'item_name' => addslashes($magento_category_name)];
-            echo json_encode($dataaa);
           } else {
             // Category migration failed.
-            $dataaa = ['item' => 'category', 'migration_status' => 'failed', 'item_name' => addslashes($magento_category_name)];
-            echo json_encode($dataaa);
           }
         } else {
           // Retrieval of corresponding Magento category id of Opencart category id failed.
@@ -146,13 +135,14 @@ class Common_migration_controller extends MY_Controller {
 
     // Fetch all the OpenCart product details and then work on it.
     $all_opencart_product_details = $this->Opencart_to_magento_product_migration_model->get_all_opencart_product_details($connections['opencart_database'], $this->session->userdata['all_user_website_details']->opencart_database_prefix);
+
     foreach ($all_opencart_product_details as $row) {
       $opencart_product_id = $row['product_id'];
       $magento_product_name = $row['name'];
       $magento_product_description = $row['description'];
       $magento_product_quantity = $row['quantity'];
       $magento_product_price = $row['price'];
-      $magento_store_id = $this->session->userdata['all_user_website_details']->magento_store_id;
+      $magento_store_id = 1;
       $opencart_category_id_of_product = $this->Opencart_to_magento_product_migration_model->get_opencart_category_id_of_product($connections['opencart_database'], $this->session->userdata['all_user_website_details']->opencart_database_prefix, $opencart_product_id);
       $magento_category_id_of_product = array();
       foreach ($opencart_category_id_of_product as $row) {
@@ -259,6 +249,9 @@ class Common_migration_controller extends MY_Controller {
         // Retrieval of corresponding Magento category id of Opencart category id failed.
       }
     }
+
+    $data = array("migration_status" => "complete");
+    echo json_encode($data);
   }
 
 
@@ -342,6 +335,9 @@ class Common_migration_controller extends MY_Controller {
         }
       }
     }
+
+    $data = array("migration_status" => "complete");
+    echo json_encode($data);
   }
 
 
@@ -375,7 +371,8 @@ class Common_migration_controller extends MY_Controller {
       $magento_payment_method = $row['payment_method'];
       $magento_payment_address_telephone = $row['telephone'];
       $magento_order_total = $row['total'];
-      $magento_store_id = $this->session->userdata['all_user_website_details']->magento_store_id;
+      $magento_store_id = 1;
+      $items = array();
       $opencart_product_id_query_result = $this->Opencart_to_magento_order_migration_model->get_product_id_of_order($connections['opencart_database'], $this->session->userdata['all_user_website_details']->opencart_database_prefix, $opencart_order_id);
       foreach ($opencart_product_id_query_result as $roww) {
         $magento_product_id_query = $this->Opencart_to_magento_order_migration_model->get_magento_product_id_of_product($product_mapping_table_name, $roww['product_id']);
@@ -386,62 +383,7 @@ class Common_migration_controller extends MY_Controller {
           if($magento_product_sku_query->num_rows() == 1) {
             $magento_product_sku_query_result = $magento_product_sku_query->row();
             $magento_product_sku = $magento_product_sku_query_result->sku;
-            $magento_customer_id_query = $this->Opencart_to_magento_order_migration_model->get_magento_customer_id_of_customer($customer_mapping_table_name, $opencart_customer_id);
-            $magento_customer_group_id_query = $this->Opencart_to_magento_order_migration_model->get_magento_customer_group_id_of_customer($customer_group_mapping_table_name, $opencart_customer_group_id);
-            if($magento_customer_id_query->num_rows() == 1 && $magento_customer_group_id_query->num_rows() == 1) {
-              $magento_customer_id_query_result = $magento_customer_id_query->row();
-              $magento_customer_id = $magento_customer_id_query_result->magento_customer_id;
-              $magento_customer_group_id_query_result = $magento_customer_group_id_query->row();
-              $magento_customer_group_id = $magento_customer_group_id_query_result->magento_customer_group_id;
-              $dataa = array(
-                "entity" => array(
-                  'base_grand_total' => $magento_order_total,
-                  'grand_total' => $magento_order_total,
-                  'customer_id' => $magento_customer_id,
-                  'customer_group_id' => $magento_customer_group_id,
-                  'customer_firstname' => addslashes($magento_customer_firstname),
-                  'customer_lastname' => addslashes($magento_customer_lastname),
-                  'customer_email' => $magento_customer_email,
-                  'billing_address' => array(
-                    'address_type' => 'Billing address.',
-                    'city' => addslashes($magento_payment_address_city),
-                    'firstname' => addslashes($magento_customer_firstname),
-                    'lastname' => addslashes($magento_customer_lastname),
-                    'postcode' => $magento_payment_address_postcode,
-                    'country_id' => addslashes($magento_payment_address_country),
-                    'street' => array(
-                      addslashes($magento_payment_address_1." ".$magento_payment_address_2." ".$magento_payment_address_city." ".$magento_payment_address_country." ".$magento_payment_address_postcode)
-                    ),
-                    'telephone' => $magento_payment_address_telephone,
-                    'email' => $magento_customer_email
-                  ),
-                  'items' => array(
-                    [
-                      'product_id' => $magento_product_id,
-                      'sku' => $magento_product_sku
-                    ], [
-                      'product_id' => $magento_product_id,
-                      'sku' => $magento_product_sku
-                    ]
-                  ),
-                  'payment' => array(
-                    'method' => addslashes($magento_payment_method)
-                  ),
-                  'store_id' => $magento_store_id
-                )
-              );
-
-              $response = $connections['magento_api']->post("orders", $dataa);
-              if (property_exists($response, 'base_grand_total')) {
-                // Order transfer successful.
-              } elseif (property_exists($response, 'message')) {
-                // Order migration failed.
-              } else {
-                // Order migration failed.
-              }
-            } else {
-
-            }
+            array_push($items, ['product_id' => $magento_product_id, 'sku' => $magento_product_sku]);
           } else {
 
           }
@@ -449,9 +391,60 @@ class Common_migration_controller extends MY_Controller {
 
         }
       }
-    }
-  }
 
+      $magento_customer_id_query = $this->Opencart_to_magento_order_migration_model->get_magento_customer_id_of_customer($customer_mapping_table_name, $opencart_customer_id);
+      $magento_customer_group_id_query = $this->Opencart_to_magento_order_migration_model->get_magento_customer_group_id_of_customer($customer_group_mapping_table_name, $opencart_customer_group_id);
+      if($magento_customer_id_query->num_rows() == 1 && $magento_customer_group_id_query->num_rows() == 1) {
+        $magento_customer_id_query_result = $magento_customer_id_query->row();
+        $magento_customer_id = $magento_customer_id_query_result->magento_customer_id;
+        $magento_customer_group_id_query_result = $magento_customer_group_id_query->row();
+        $magento_customer_group_id = $magento_customer_group_id_query_result->magento_customer_group_id;
+        $dataa = array(
+          "entity" => array(
+            'base_grand_total' => $magento_order_total,
+            'grand_total' => $magento_order_total,
+            'customer_id' => $magento_customer_id,
+            'customer_group_id' => $magento_customer_group_id,
+            'customer_firstname' => addslashes($magento_customer_firstname),
+            'customer_lastname' => addslashes($magento_customer_lastname),
+            'customer_email' => $magento_customer_email,
+            'billing_address' => array(
+              'address_type' => 'Billing address.',
+              'city' => addslashes($magento_payment_address_city),
+              'firstname' => addslashes($magento_customer_firstname),
+              'lastname' => addslashes($magento_customer_lastname),
+              'postcode' => $magento_payment_address_postcode,
+              'country_id' => addslashes($magento_payment_address_country),
+              'street' => array(
+                addslashes($magento_payment_address_1." ".$magento_payment_address_2." ".$magento_payment_address_city." ".$magento_payment_address_country." ".$magento_payment_address_postcode)
+              ),
+              'telephone' => $magento_payment_address_telephone,
+              'email' => $magento_customer_email
+            ),
+            'items' => $items,
+            'payment' => array(
+              'method' => addslashes($magento_payment_method)
+            ),
+            'store_id' => $magento_store_id
+          )
+        );
+
+        $response = $connections['magento_api']->post("orders", $dataa);
+        if (property_exists($response, 'base_grand_total')) {
+          // Order transfer successful.
+        } elseif (property_exists($response, 'message')) {
+          // Order migration failed.
+        } else {
+          // Order migration failed.
+        }
+      } else {
+
+      }
+    }
+
+    $data = array("migration_status" => "complete");
+    echo json_encode($data);
+  }
 
 
 

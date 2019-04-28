@@ -72,7 +72,7 @@ class Settings_migration extends CI_MODEL {
 
 	public function get_settings( $start, $limit, $order, $key = null, $user_id ) {
 
-        $this->db->select('id,user_id,opencart_websiteurl,magento_websiteurl');
+        $this->db->select('id,user_id,opencart_website_url,magento_website_url');
         $this->db->from($this->table);
 		$this->db->where('user_id', $user_id);
         $key = $this->db->escape_like_str($key);

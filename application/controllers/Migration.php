@@ -160,42 +160,42 @@ class Migration extends MY_Controller {
         // Check if data was submitted
         if ( $this->input->post() ) {
             // Add form validation
-            $this->form_validation->set_rules('opencart_websiteurl', 'Opencart web url', 'trim|required|callback_valid_urls');
-			$this->form_validation->set_rules('opencart_database', 'Opencart database', 'trim|required');
-			$this->form_validation->set_rules('opencart_dbuser', 'Opencart database user', 'trim|required');
-			$this->form_validation->set_rules('opencart_dbpassword', 'Opencart database password', 'trim');
-			$this->form_validation->set_rules('opencart_dbhost', 'Opencart database host', 'trim|required');
-			$this->form_validation->set_rules('opencart_dbprefix', 'Opencart database prefix', 'trim');
-			$this->form_validation->set_rules('opencart_admin', 'Opencart admin username', 'trim|required');
-			$this->form_validation->set_rules('opencart_admin_password', 'Opencart admin password', 'trim|required');
+            $this->form_validation->set_rules('opencart_website_url', 'Opencart web url', 'trim|required|callback_valid_urls');
+			$this->form_validation->set_rules('opencart_database_name', 'Opencart database', 'trim|required');
+			$this->form_validation->set_rules('opencart_database_username', 'Opencart database user', 'trim|required');
+			$this->form_validation->set_rules('opencart_database_password', 'Opencart database password', 'trim');
+			$this->form_validation->set_rules('opencart_database_host', 'Opencart database host', 'trim|required');
+			$this->form_validation->set_rules('opencart_database_prefix', 'Opencart database prefix', 'trim');
+			$this->form_validation->set_rules('opencart_website_admin_username', 'Opencart admin username', 'trim|required');
+			$this->form_validation->set_rules('opencart_website_admin_password', 'Opencart admin password', 'trim|required');
 
-			$this->form_validation->set_rules('magento_websiteurl', 'Magento web url', 'trim|required|callback_valid_urls');
-			$this->form_validation->set_rules('magento_database', 'Magento database', 'trim|required');
-			$this->form_validation->set_rules('magento_dbuser', 'Magento database user', 'trim|required');
-			$this->form_validation->set_rules('magento_dbpassword', 'Magento database password', 'trim');
-			$this->form_validation->set_rules('magento_dbhost', 'Magento database host', 'trim|required');
-			$this->form_validation->set_rules('magento_dbprefix', 'Magento database prefix', 'trim');
-			$this->form_validation->set_rules('magento_admin', 'Magento admin username', 'trim|required');
-			$this->form_validation->set_rules('magento_admin_password', 'Magento admin password', 'trim|required');
+			$this->form_validation->set_rules('magento_website_url', 'Magento web url', 'trim|required|callback_valid_urls');
+			$this->form_validation->set_rules('magento_database_name', 'Magento database', 'trim|required');
+			$this->form_validation->set_rules('magento_database_username', 'Magento database user', 'trim|required');
+			$this->form_validation->set_rules('magento_database_password', 'Magento database password', 'trim');
+			$this->form_validation->set_rules('magento_database_host', 'Magento database host', 'trim|required');
+			$this->form_validation->set_rules('magento_database_prefix', 'Magento database prefix', 'trim');
+			$this->form_validation->set_rules('magento_website_admin_username', 'Magento admin username', 'trim|required');
+			$this->form_validation->set_rules('magento_website_admin_password', 'Magento admin password', 'trim|required');
 
             // Get data
-            $opencart_websiteurl = $this->input->post('opencart_websiteurl');
-            $opencart_database = $this->input->post('opencart_database');
-            $opencart_dbuser = $this->input->post('opencart_dbuser');
-            $opencart_dbpassword = $this->input->post('opencart_dbpassword');
-            $opencart_dbhost = $this->input->post('opencart_dbhost');
-			$opencart_dbprefix = $this->input->post('opencart_dbprefix');
-			$opencart_admin = $this->input->post('opencart_admin');
-			$opencart_admin_password = $this->input->post('opencart_admin_password');
+            $opencart_website_url = $this->input->post('opencart_website_url');
+            $opencart_database_name = $this->input->post('opencart_database_name');
+            $opencart_database_username = $this->input->post('opencart_database_username');
+            $opencart_database_password = $this->input->post('opencart_database_password');
+            $opencart_database_host = $this->input->post('opencart_database_host');
+			$opencart_database_prefix = $this->input->post('opencart_database_prefix');
+			$opencart_website_admin = $this->input->post('opencart_website_admin_username');
+			$opencart_website_admin_password = $this->input->post('opencart_website_admin_password');
 
-            $magento_websiteurl = $this->input->post('magento_websiteurl');
-            $magento_database = $this->input->post('magento_database');
-            $magento_dbuser = $this->input->post('magento_dbuser');
-			$magento_dbpassword = $this->input->post('magento_dbpassword');
-			$magento_dbhost = $this->input->post('magento_dbhost');
-			$magento_dbprefix = $this->input->post('magento_dbprefix');
-			$magento_admin = $this->input->post('magento_admin');
-			$magento_admin_password = $this->input->post('magento_admin_password');
+            $magento_website_url = $this->input->post('magento_website_url');
+            $magento_database_name = $this->input->post('magento_database_name');
+            $magento_database_username = $this->input->post('magento_database_username');
+			$magento_database_password = $this->input->post('magento_database_password');
+			$magento_database_host = $this->input->post('magento_database_host');
+			$magento_database_prefix = $this->input->post('magento_database_prefix');
+			$magento_website_admin_username = $this->input->post('magento_website_admin_username');
+			$magento_website_admin_password = $this->input->post('magento_website_admin_password');
 
 			$action = $this->input->post('actionname');
 
@@ -207,39 +207,39 @@ class Migration extends MY_Controller {
 
             } else {
 
-				$checkopencart = $this->check_opencart($opencart_websiteurl);
+				$checkopencart = $this->check_opencart($opencart_website_url);
                 // Check if the password has less than six characters
                // if ( $checkopencart  ) {
                //     echo json_encode('<div class="merror">Web url is not opencart website</div>');
               //  } else {
-				    $pieces = parse_url($magento_websiteurl);
+				    $pieces = parse_url($magento_website_url);
 					$domain = isset($pieces['host']) ? $pieces['host'] : $pieces['path'];
 					if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
 						$domainname = $regs['domain'];
 					}else{
-						$domainname = $magento_websiteurl;
+						$domainname = $magento_website_url;
 					}
 					$username = $this->session->userdata['username'];
 
 					if($action == "save_settings" ){
 						$data = array(
 								'user_id' => $this->user_id,
-								'opencart_websiteurl' => $opencart_websiteurl,
-								'opencart_database' => $opencart_database,
-								'opencart_dbusername' => $opencart_dbuser,
-								'opencart_dbpassword' => $opencart_dbpassword,
-								'opencart_dbhost' => $opencart_dbhost,
-								'opencart_dbprefix' => $opencart_dbprefix,
-								'opencart_admin' => $opencart_admin,
-								'opencart_admin_password' => $opencart_admin_password,
-								'magento_websiteurl' => $magento_websiteurl,
-								'magento_database' => $magento_database,
-								'magento_dbusername' => $magento_dbuser,
-								'magento_dbpassword' => $magento_dbpassword,
-								'magento_dbhost' => $magento_dbhost,
-								'magento_dbprefix' => $magento_dbprefix,
-								'magento_admin' => $magento_admin,
-								'magento_admin_password' => $magento_admin_password,
+								'opencart_website_url' => $opencart_website_url,
+								'opencart_database_name' => $opencart_database_name,
+								'opencart_database_username' => $opencart_database_username,
+								'opencart_database_password' => $opencart_database_password,
+								'opencart_database_host' => $opencart_database_host,
+								'opencart_database_prefix' => $opencart_database_prefix,
+								'opencart_website_admin_username' => $opencart_website_admin,
+								'opencart_website_admin_password' => $opencart_website_admin_password,
+								'magento_website_url' => $magento_website_url,
+								'magento_database_name' => $magento_database_name,
+								'magento_database_username' => $magento_database_username,
+								'magento_database_password' => $magento_database_password,
+								'magento_database_host' => $magento_database_host,
+								'magento_database_prefix' => $magento_database_prefix,
+								'magento_website_admin_username' => $magento_website_admin_username,
+								'magento_website_admin_password' => $magento_website_admin_password,
 								);
 						$lastid = $this->settings_migration->save_settings($data);
 
@@ -249,22 +249,22 @@ class Migration extends MY_Controller {
 						echo json_encode('<p class="msuccess">Migration settings saved successfully.</p>');
 					}else if($action == "update_setting"){
 						$data = array(
-								'opencart_websiteurl' => $opencart_websiteurl,
-								'opencart_database' => $opencart_database,
-								'opencart_dbusername' => $opencart_dbuser,
-								'opencart_dbpassword' => $opencart_dbpassword,
-								'opencart_dbhost' => $opencart_dbhost,
-								'opencart_dbprefix' => $opencart_dbprefix,
-								'opencart_admin' => $opencart_admin,
-								'opencart_admin_password' => $opencart_admin_password,
-								'magento_websiteurl' => $magento_websiteurl,
-								'magento_database' => $magento_database,
-								'magento_dbusername' => $magento_dbuser,
-								'magento_dbpassword' => $magento_dbpassword,
-								'magento_dbhost' => $magento_dbhost,
-								'magento_dbprefix' => $magento_dbprefix,
-								'magento_admin' => $magento_admin,
-								'magento_admin_password' => $magento_admin_password,
+								'opencart_website_url' => $opencart_website_url,
+								'opencart_database_name' => $opencart_database_name,
+								'opencart_database_username' => $opencart_database_username,
+								'opencart_database_password' => $opencart_database_password,
+								'opencart_database_host' => $opencart_database_host,
+								'opencart_database_prefix' => $opencart_database_prefix,
+								'opencart_website_admin_username' => $opencart_website_admin,
+								'opencart_website_admin_password' => $opencart_website_admin_password,
+								'magento_website_url' => $magento_website_url,
+								'magento_database_name' => $magento_database_name,
+								'magento_database_username' => $magento_database_username,
+								'magento_database_password' => $magento_database_password,
+								'magento_database_host' => $magento_database_host,
+								'magento_database_prefix' => $magento_database_prefix,
+								'magento_website_admin_username' => $magento_website_admin_username,
+								'magento_website_admin_password' => $magento_website_admin_password,
 								);
 						$update = $this->settings_migration->update_settings($migration_id, $this->user_id, $data);
 
